@@ -1,0 +1,1640 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Qualification prospect – Cabinet AUCTUS</title>
+<style>
+  :root {
+    --navy: #1c2b4a;
+    --navy-dark: #0f1a30;
+    --navy-light: #2a3d63;
+    --gold: #b8894a;
+    --gold-light: #d4a464;
+    --bg: #f5f3ee;
+    --surface: #ffffff;
+    --border: #e2ddd2;
+    --border-strong: #c9c0b0;
+    --text: #1c2b4a;
+    --text-soft: #5a6478;
+    --text-muted: #8a8578;
+    --success: #2d7a4f;
+    --success-bg: #e8f3ec;
+    --danger: #a83232;
+    --script-bg: #fbf9f4;
+    --script-border: #e8dfc8;
+    --radius: 6px;
+    --radius-sm: 4px;
+    --shadow: 0 1px 3px rgba(28,43,74,0.06), 0 8px 24px rgba(28,43,74,0.04);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 24px 20px 80px;
+  }
+
+  /* Header */
+  .header {
+    background: var(--navy);
+    color: #fff;
+    padding: 24px 28px;
+    border-radius: var(--radius);
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: "";
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: 3px;
+    background: var(--gold);
+  }
+  .header-brand { display: flex; align-items: center; gap: 14px; }
+  .header-logo {
+    width: 42px; height: 42px;
+    border: 1.5px solid var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: "Playfair Display", Georgia, serif;
+    font-weight: 700;
+    color: var(--gold);
+    font-size: 18px;
+    letter-spacing: 0.5px;
+  }
+  .header-title {
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    margin: 0;
+  }
+  .header-sub {
+    font-size: 12px;
+    color: rgba(255,255,255,0.7);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-top: 2px;
+  }
+  .header-meta {
+    font-size: 12px;
+    color: rgba(255,255,255,0.65);
+    text-align: right;
+  }
+  .header-meta strong { color: var(--gold-light); font-weight: 500; }
+
+  /* Progress */
+  .progress-wrap {
+    background: var(--surface);
+    padding: 18px 24px;
+    border-radius: var(--radius);
+    margin-bottom: 20px;
+    border: 1px solid var(--border);
+  }
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 4px;
+    margin-bottom: 10px;
+  }
+  .step {
+    text-align: center;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-muted);
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+  }
+  .step.active {
+    color: var(--navy);
+    border-bottom-color: var(--gold);
+    font-weight: 600;
+  }
+  .step.done {
+    color: var(--success);
+    border-bottom-color: var(--success);
+  }
+  .step-num {
+    display: inline-block;
+    width: 18px; height: 18px;
+    line-height: 16px;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    font-size: 10px;
+    margin-right: 6px;
+  }
+  .autosave-indicator {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-align: right;
+    font-style: italic;
+  }
+
+  /* Card */
+  .card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    margin-bottom: 16px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+  }
+  .card-title {
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--navy);
+    margin: 0 0 4px;
+  }
+  .card-sub {
+    font-size: 13px;
+    color: var(--text-soft);
+    margin: 0 0 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* Questions */
+  .q-block {
+    margin-bottom: 22px;
+    padding-bottom: 22px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .q-block:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+
+  .q-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .q-num {
+    background: var(--navy);
+    color: var(--gold-light);
+    width: 26px; height: 26px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 600;
+    flex-shrink: 0;
+    font-family: "Playfair Display", Georgia, serif;
+  }
+  .q-label {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--navy);
+    flex: 1;
+    padding-top: 3px;
+  }
+  .q-label .req { color: var(--danger); margin-left: 3px; }
+  .q-hint {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-style: italic;
+    font-weight: 400;
+    margin-top: 3px;
+    display: block;
+  }
+
+  .q-script {
+    background: var(--script-bg);
+    border-left: 3px solid var(--gold);
+    padding: 10px 14px;
+    margin: 0 0 12px 36px;
+    font-size: 13px;
+    color: var(--text-soft);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  }
+  .q-script-speaker {
+    font-family: "Playfair Display", Georgia, serif;
+    font-weight: 700;
+    color: var(--navy);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 3px;
+  }
+  .q-script-line { display: block; margin: 4px 0; }
+  .q-script-line::before { content: "« "; color: var(--gold); }
+  .q-script-line::after { content: " »"; color: var(--gold); }
+
+  .q-input-wrap { margin-left: 36px; }
+
+  /* Inputs */
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="date"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--text);
+    background: #fff;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--navy);
+    box-shadow: 0 0 0 3px rgba(28,43,74,0.08);
+  }
+  input[readonly], input.prefilled {
+    background: var(--script-bg);
+    color: var(--text-soft);
+  }
+  textarea { resize: vertical; min-height: 70px; font-family: inherit; }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+  }
+
+  .sub-field { margin-top: 8px; }
+  .sub-field label {
+    font-size: 12px;
+    color: var(--text-soft);
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+
+  /* Radio / checkbox groups */
+  .choice-group { display: flex; gap: 8px; flex-wrap: wrap; }
+  .choice {
+    flex: 1;
+    min-width: 100px;
+    position: relative;
+  }
+  .choice input { position: absolute; opacity: 0; }
+  .choice label {
+    display: block;
+    padding: 9px 14px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-soft);
+    transition: all 0.15s;
+    background: #fff;
+  }
+  .choice input:checked + label {
+    border-color: var(--navy);
+    background: var(--navy);
+    color: #fff;
+    font-weight: 500;
+  }
+  .choice input:checked + label.yes-style { background: var(--success); border-color: var(--success); }
+  .choice input:checked + label.no-style { background: var(--danger); border-color: var(--danger); }
+
+  /* Branch container */
+  .branch {
+    margin-top: 14px;
+    margin-left: 36px;
+    padding: 16px 18px;
+    background: var(--script-bg);
+    border: 1px dashed var(--script-border);
+    border-radius: var(--radius-sm);
+    display: none;
+  }
+  .branch.visible { display: block; }
+  .branch-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* Floating notes - position fixe renforcée */
+  .notes-pane {
+    position: fixed;
+    right: 20px;
+    bottom: 88px;
+    width: 320px;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    box-shadow: 0 10px 30px rgba(28,43,74,0.18);
+    z-index: 60;
+    transition: transform 0.25s ease, width 0.25s ease;
+  }
+  .notes-pane-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    cursor: move;
+    user-select: none;
+  }
+  .notes-pane-head h3 {
+    margin: 0;
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 14px;
+    color: var(--navy);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .notes-pane-toggle {
+    background: none; border: none; cursor: pointer;
+    color: var(--text-muted); font-size: 18px;
+    padding: 0 4px;
+    line-height: 1;
+  }
+  .notes-pane-toggle:hover { color: var(--navy); }
+  .notes-pane.collapsed { width: auto; }
+  .notes-pane.collapsed .notes-pane-body { display: none; }
+  .notes-pane.collapsed .notes-pane-head h3 { font-size: 13px; }
+  .notes-pane textarea {
+    min-height: 120px;
+    max-height: 250px;
+    font-size: 13px;
+    resize: vertical;
+  }
+  .notes-pane-counter {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-align: right;
+    margin-top: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Sticky navigation bar */
+  .nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--surface);
+    border-top: 1px solid var(--border-strong);
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    z-index: 40;
+    box-shadow: 0 -4px 16px rgba(28,43,74,0.08);
+  }
+  .nav-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    align-items: center;
+  }
+  .nav-step-indicator {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
+  }
+  .nav-step-indicator strong {
+    color: var(--navy);
+    font-weight: 600;
+  }
+  /* Leave space at the bottom of the page so sticky nav doesn't hide content */
+  body { padding-bottom: 90px; }
+  .btn {
+    padding: 11px 22px;
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: 1px solid transparent;
+    letter-spacing: 0.3px;
+  }
+  .btn-primary {
+    background: var(--navy);
+    color: #fff;
+    border-color: var(--navy);
+  }
+  .btn-primary:hover { background: var(--navy-dark); }
+  .btn-accent {
+    background: var(--gold);
+    color: #fff;
+    border-color: var(--gold);
+  }
+  .btn-accent:hover { background: var(--gold-light); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text-soft);
+    border-color: var(--border-strong);
+  }
+  .btn-ghost:hover { background: var(--script-bg); border-color: var(--navy); color: var(--navy); }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* Banner */
+  .banner {
+    padding: 12px 18px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 16px;
+    font-size: 13px;
+    display: none;
+  }
+  .banner.visible { display: block; }
+  .banner-info {
+    background: #eaf1fb;
+    border-left: 3px solid var(--navy);
+    color: var(--navy);
+  }
+  .banner-success {
+    background: var(--success-bg);
+    border-left: 3px solid var(--success);
+    color: var(--success);
+  }
+  .banner-error {
+    background: #fbebeb;
+    border-left: 3px solid var(--danger);
+    color: var(--danger);
+  }
+
+  /* Recap */
+  .recap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 24px;
+    margin-bottom: 20px;
+  }
+  .recap-item {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .recap-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-muted);
+  }
+  .recap-value {
+    font-size: 14px;
+    color: var(--navy);
+    font-weight: 500;
+    margin-top: 2px;
+  }
+  .recap-value.empty { color: var(--text-muted); font-weight: 400; font-style: italic; }
+
+  /* Responsive */
+  @media (max-width: 720px) {
+    .page { padding: 12px; }
+    .card { padding: 20px 18px; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .q-script, .q-input-wrap, .branch { margin-left: 0; }
+    .notes-pane { width: calc(100% - 24px); right: 12px; bottom: 80px; }
+    .steps { grid-template-columns: repeat(5, 1fr); font-size: 9px; }
+    .step-num { display: none; }
+    .header-title { font-size: 18px; }
+  }
+
+  /* Print */
+  @media print {
+    body { background: #fff; }
+    .notes-pane, .nav, .progress-wrap { display: none; }
+    .card { box-shadow: none; border: 1px solid #ccc; page-break-inside: avoid; }
+    .step { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ━━━━━━━━━━ HEADER ━━━━━━━━━━ -->
+  <div class="header">
+    <div class="header-brand">
+      <div class="header-logo">A</div>
+      <div>
+        <h1 class="header-title">Cabinet AUCTUS</h1>
+        <div class="header-sub">Qualification prospect · Expertise comptable</div>
+      </div>
+    </div>
+    <div class="header-meta">
+      Commercial : <strong id="commercial-name">Arthur PICARD</strong><br>
+      Date : <strong id="today-date"></strong>
+    </div>
+  </div>
+
+  <!-- ━━━━━━━━━━ PREFILL BANNER ━━━━━━━━━━ -->
+  <div id="banner" class="banner"></div>
+
+  <!-- ━━━━━━━━━━ PROGRESS ━━━━━━━━━━ -->
+  <div class="progress-wrap">
+    <div class="steps">
+      <div class="step active" data-step="0" onclick="goStep(0)"><span class="step-num">1</span>Contact</div>
+      <div class="step" data-step="1" onclick="goStep(1)"><span class="step-num">2</span>Société</div>
+      <div class="step" data-step="2" onclick="goStep(2)"><span class="step-num">3</span>Activité</div>
+      <div class="step" data-step="3" onclick="goStep(3)"><span class="step-num">4</span>Comptable</div>
+      <div class="step" data-step="4" onclick="goStep(4)"><span class="step-num">5</span>Clôture</div>
+    </div>
+    <div class="autosave-indicator" id="autosave">Prêt</div>
+  </div>
+
+  <form id="qualif-form" onsubmit="return false;">
+
+    <!-- ════════════════ STEP 0 : CONTACT ════════════════ -->
+    <div class="card step-card" data-step="0">
+      <h2 class="card-title">Prise de contact</h2>
+      <p class="card-sub">Identifier l'interlocuteur et ouvrir l'échange.</p>
+
+      <!-- Q1 : Nom / prénom -->
+      <div class="q-block">
+        <div class="q-head">
+          <div class="q-num">1</div>
+          <div class="q-label">Identité du contact<span class="req">*</span>
+            <span class="q-hint">Présentez-vous, puis demandez le nom complet du contact.</span>
+          </div>
+        </div>
+        <div class="q-script">
+          <span class="q-script-speaker">Commercial · Appel entrant</span>
+          <span class="q-script-line">Cabinet AUCTUS bonjour, [prénom] à votre écoute, comment puis-je vous aider ?</span>
+          <span class="q-script-line">Pour commencer pouvez-vous me redonner votre nom et prénom s'il vous plaît ?</span>
+        </div>
+        <div class="q-script">
+          <span class="q-script-speaker">Commercial · Appel sortant</span>
+          <span class="q-script-line">Bonjour, [prénom] du cabinet AUCTUS, est-ce que je suis bien en ligne avec M./Mme [nom] ?</span>
+          <span class="q-script-line">Je vous appelle suite à votre demande / notre échange précédent, est-ce que c'est le bon moment pour vous ?</span>
+        </div>
+        <div class="q-input-wrap">
+          <div class="grid-2">
+            <div class="sub-field">
+              <label>Prénom</label>
+              <input type="text" id="prenom" name="prenom" data-save>
+            </div>
+            <div class="sub-field">
+              <label>Nom</label>
+              <input type="text" id="nom" name="nom" data-save>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q2 : Email -->
+      <div class="q-block">
+        <div class="q-head">
+          <div class="q-num">2</div>
+          <div class="q-label">Adresse email<span class="req">*</span>
+            <span class="q-hint">Confirmez l'orthographe en épelant si besoin.</span>
+          </div>
+        </div>
+        <div class="q-script">
+          <span class="q-script-speaker">Commercial</span>
+          <span class="q-script-line">Quelle est votre adresse email, pour que je puisse vous envoyer un récapitulatif ?</span>
+        </div>
+        <div class="q-input-wrap">
+          <input type="email" id="email" name="email" data-save placeholder="contact@exemple.fr">
+        </div>
+      </div>
+
+      <!-- Q3 : Téléphone -->
+      <div class="q-block">
+        <div class="q-head">
+          <div class="q-num">3</div>
+          <div class="q-label">Numéro de téléphone<span class="req">*</span></div>
+        </div>
+        <div class="q-script">
+          <span class="q-script-speaker">Commercial</span>
+          <span class="q-script-line">Quel est le meilleur numéro pour vous joindre ?</span>
+        </div>
+        <div class="q-input-wrap">
+          <input type="tel" id="telephone" name="telephone" data-save placeholder="06 12 34 56 78">
+        </div>
+      </div>
+
+      <!-- Q4 : Code postal -->
+      <div class="q-block">
+        <div class="q-head">
+          <div class="q-num">4</div>
+          <div class="q-label">Code postal</div>
+        </div>
+        <div class="q-script">
+          <span class="q-script-speaker">Commercial</span>
+          <span class="q-script-line">Vous êtes situé dans quel département / code postal ?</span>
+        </div>
+        <div class="q-input-wrap">
+          <input type="text" id="code_postal" name="code_postal" data-save maxlength="5" style="max-width:160px">
+        </div>
+      </div>
+
+      <!-- Entreprise (récupérée du formulaire contact) -->
+      <div class="q-block">
+        <div class="q-head">
+          <div class="q-num">🏢</div>
+          <div class="q-label">Entreprise
+            <span class="q-hint">Nom indiqué par le prospect sur le formulaire de contact.</span>
+          </div>
+        </div>
+        <div class="q-input-wrap">
+          <input type="text" id="entreprise" name="entreprise" data-save placeholder="Nom de la société">
+        </div>
+      </div>
+
+      <!-- Message du formulaire de contact (fixe, lecture seule stylisée) -->
+      <div class="q-block" id="contact-message-block" style="display:none">
+        <div class="q-head">
+          <div class="q-num">💬</div>
+          <div class="q-label">Message reçu via le formulaire de contact
+            <span class="q-hint">À lire avant de lancer les questions — c'est le besoin exprimé par le prospect.</span>
+          </div>
+        </div>
+        <div class="q-input-wrap">
+          <div id="contact-message-display" style="background:var(--script-bg);border-left:3px solid var(--gold);padding:14px 18px;border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-size:14px;color:var(--text);white-space:pre-wrap;line-height:1.6;font-style:italic"></div>
+        </div>
+      </div>
+
+      <!-- Q5 : Autres cabinets -->
+      <div class="q-block">
+        <div class="q-head">
+          <div class="q-num">5</div>
+          <div class="q-label">Avez-vous contacté d'autres cabinets ?
+            <span class="q-hint">Signal concurrentiel important — à remonter à la direction.</span>
+          </div>
+        </div>
+        <div class="q-script">
+          <span class="q-script-speaker">Commercial</span>
+          <span class="q-script-line">Vous êtes en train de comparer plusieurs cabinets, ou nous sommes les premiers que vous appelez ?</span>
+        </div>
+        <div class="q-input-wrap">
+          <div class="choice-group">
+            <div class="choice"><input type="radio" id="concur-non" name="concurrents" value="Non" data-save><label for="concur-non">Non</label></div>
+            <div class="choice"><input type="radio" id="concur-oui" name="concurrents" value="Oui" data-save><label for="concur-oui">Oui</label></div>
+          </div>
+          <div class="sub-field" id="concur-detail-wrap" style="display:none;margin-top:10px">
+            <label>Lesquels ? Où en est la réflexion ?</label>
+            <input type="text" id="concurrents_details" name="concurrents_details" data-save>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════ STEP 1 : SOCIÉTÉ ════════════════ -->
+    <div class="card step-card" data-step="1" style="display:none">
+      <h2 class="card-title">Statut de la société</h2>
+      <p class="card-sub">C'est la question qui fait basculer tout l'entretien.</p>
+
+      <!-- Q7 : Société créée ? -->
+      <div class="q-block">
+        <div class="q-head">
+          <div class="q-num">7</div>
+          <div class="q-label">La société est-elle déjà créée ?<span class="req">*</span></div>
+        </div>
+        <div class="q-script">
+          <span class="q-script-speaker">Commercial</span>
+          <span class="q-script-line">Est-ce que votre société est déjà créée, ou on est encore au stade du projet ?</span>
+        </div>
+        <div class="q-input-wrap">
+          <div class="choice-group">
+            <div class="choice">
+              <input type="radio" id="etat-creee" name="etat_societe" value="creee" data-save onchange="toggleBranch()">
+              <label for="etat-creee" class="yes-style">✓ Déjà créée</label>
+            </div>
+            <div class="choice">
+              <input type="radio" id="etat-projet" name="etat_societe" value="projet" data-save onchange="toggleBranch()">
+              <label for="etat-projet" class="no-style">⊕ En projet</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- ────── BRANCHE A : société déjà créée ────── -->
+        <div class="branch" id="branch-creee">
+          <div class="branch-title">Branche A · Société déjà en activité</div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num">A1</div>
+              <div class="q-label">Date de création
+                <span class="q-hint">Créée depuis quand ?</span>
+              </div>
+            </div>
+            <div class="q-input-wrap">
+              <input type="date" id="date_creation" name="date_creation" data-save style="max-width:220px">
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num">A2</div>
+              <div class="q-label">Représentant légal ?
+                <span class="q-hint">Si NON : prévoir un mandat à signer.</span>
+              </div>
+            </div>
+            <div class="q-input-wrap">
+              <div class="choice-group">
+                <div class="choice"><input type="radio" id="rl-oui" name="representant_legal" value="Oui" data-save><label for="rl-oui" class="yes-style">Oui</label></div>
+                <div class="choice"><input type="radio" id="rl-non" name="representant_legal" value="Non (mandat à signer)" data-save><label for="rl-non" class="no-style">Non → mandat</label></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num">A3</div>
+              <div class="q-label">Nombre de banques</div>
+            </div>
+            <div class="q-input-wrap">
+              <input type="number" id="nb_banques" name="nb_banques" min="0" max="20" data-save style="max-width:120px">
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num">A4</div>
+              <div class="q-label">Volume de factures par mois
+                <span class="q-hint">Indicateur de charge de travail. Restaurant ≫ informaticien.</span>
+              </div>
+            </div>
+            <div class="q-input-wrap">
+              <input type="text" id="volume_factures" name="volume_factures" data-save placeholder="Ex : 30-50 / mois">
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num">A5</div>
+              <div class="q-label">Périodicité de TVA</div>
+            </div>
+            <div class="q-input-wrap">
+              <div class="choice-group">
+                <div class="choice"><input type="radio" id="tva-m" name="tva" value="Mensuelle" data-save><label for="tva-m">Mensuelle</label></div>
+                <div class="choice"><input type="radio" id="tva-t" name="tva" value="Trimestrielle" data-save><label for="tva-t">Trimestrielle</label></div>
+                <div class="choice"><input type="radio" id="tva-a" name="tva" value="Annuelle" data-save><label for="tva-a">Annuelle</label></div>
+                <div class="choice"><input type="radio" id="tva-f" name="tva" value="Franchise / non assujetti" data-save><label for="tva-f">Franchise</label></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num">A6</div>
+              <div class="q-label">Marketplaces utilisées
+                <span class="q-hint">E-commerce uniquement — à ignorer sinon.</span>
+              </div>
+            </div>
+            <div class="q-input-wrap">
+              <input type="text" id="marketplaces" name="marketplaces" data-save placeholder="Amazon, Shopify, Etsy…">
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num">A7</div>
+              <div class="q-label">Nombre d'associés</div>
+            </div>
+            <div class="q-input-wrap">
+              <input type="number" id="nb_associes_actif" name="nb_associes_actif" min="0" data-save style="max-width:120px">
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num">A8</div>
+              <div class="q-label">Chiffre d'affaires annuel</div>
+            </div>
+            <div class="q-input-wrap">
+              <select id="ca" name="ca" data-save>
+                <option value="">— Sélectionner —</option>
+                <option>0 - 200 000 €</option>
+                <option>200 000 - 500 000 €</option>
+                <option>500 000 - 2 000 000 €</option>
+                <option>2 000 000 - 5 000 000 €</option>
+                <option>5 000 000 € et plus</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num">A9</div>
+              <div class="q-label">Salariés actuellement ?</div>
+            </div>
+            <div class="q-input-wrap">
+              <div class="choice-group">
+                <div class="choice"><input type="radio" id="sal-oui" name="salaries" value="Oui" data-save onchange="toggleSalaries()"><label for="sal-oui" class="yes-style">Oui</label></div>
+                <div class="choice"><input type="radio" id="sal-non" name="salaries" value="Non" data-save onchange="toggleSalaries()"><label for="sal-non" class="no-style">Non</label></div>
+              </div>
+              <div class="sub-field" id="nb-salaries-wrap" style="display:none;margin-top:10px">
+                <label>Combien ?</label>
+                <input type="number" id="nb_salaries" name="nb_salaries" min="0" data-save style="max-width:120px">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ────── BRANCHE B : société en projet ────── -->
+        <div class="branch" id="branch-projet">
+          <div class="branch-title">Branche B · Société en cours de création</div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num">B1</div>
+              <div class="q-label">Date envisagée de création</div>
+            </div>
+            <div class="q-script">
+              <span class="q-script-speaker">Commercial</span>
+              <span class="q-script-line">Quand envisagez-vous la création de votre activité ?</span>
+            </div>
+            <div class="q-input-wrap">
+              <input type="text" id="date_creation_prev" name="date_creation_prev" data-save placeholder="Ex : dans 2 mois, septembre 2026…">
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num">B2</div>
+              <div class="q-label">Serez-vous le représentant légal ?
+                <span class="q-hint">Si NON : prévoir un mandat à signer.</span>
+              </div>
+            </div>
+            <div class="q-input-wrap">
+              <div class="choice-group">
+                <div class="choice"><input type="radio" id="rlp-oui" name="representant_legal_prev" value="Oui" data-save><label for="rlp-oui" class="yes-style">Oui</label></div>
+                <div class="choice"><input type="radio" id="rlp-non" name="representant_legal_prev" value="Non (mandat à signer)" data-save><label for="rlp-non" class="no-style">Non → mandat</label></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num">B3</div>
+              <div class="q-label">Business plan — parlez-m'en un peu
+                <span class="q-hint">Champ libre — laisser parler.</span>
+              </div>
+            </div>
+            <div class="q-input-wrap">
+              <textarea id="business_plan" name="business_plan" data-save rows="4" placeholder="Activité, cibles, ambitions, prévisionnel…"></textarea>
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num">B4</div>
+              <div class="q-label">Capital de départ</div>
+            </div>
+            <div class="q-input-wrap">
+              <input type="text" id="capital" name="capital" data-save placeholder="Ex : 5 000 €">
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num">B5</div>
+              <div class="q-label">Y aura-t-il des associés ?</div>
+            </div>
+            <div class="q-input-wrap">
+              <div class="choice-group">
+                <div class="choice"><input type="radio" id="ass-oui" name="associes_prev" value="Oui" data-save onchange="toggleAssocies()"><label for="ass-oui" class="yes-style">Oui</label></div>
+                <div class="choice"><input type="radio" id="ass-non" name="associes_prev" value="Non" data-save onchange="toggleAssocies()"><label for="ass-non" class="no-style">Non</label></div>
+              </div>
+              <div class="sub-field" id="nb-associes-wrap" style="display:none;margin-top:10px">
+                <label>Combien ?</label>
+                <input type="number" id="nb_associes_prev" name="nb_associes_prev" min="1" data-save style="max-width:120px">
+              </div>
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num">B6</div>
+              <div class="q-label">Envisagez-vous d'embaucher des salariés ?</div>
+            </div>
+            <div class="q-input-wrap">
+              <div class="choice-group">
+                <div class="choice"><input type="radio" id="emb-oui" name="embauche_prev" value="Oui" data-save><label for="emb-oui" class="yes-style">Oui</label></div>
+                <div class="choice"><input type="radio" id="emb-non" name="embauche_prev" value="Non" data-save><label for="emb-non" class="no-style">Non</label></div>
+                <div class="choice"><input type="radio" id="emb-pe" name="embauche_prev" value="Peut-être" data-save><label for="emb-pe">Peut-être</label></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num">B7</div>
+              <div class="q-label">Le dirigeant sera-t-il salarié ?</div>
+            </div>
+            <div class="q-input-wrap">
+              <div class="choice-group">
+                <div class="choice"><input type="radio" id="dirs-oui" name="dirigeant_salarie" value="Oui" data-save><label for="dirs-oui" class="yes-style">Oui</label></div>
+                <div class="choice"><input type="radio" id="dirs-non" name="dirigeant_salarie" value="Non (TNS)" data-save><label for="dirs-non" class="no-style">Non (TNS)</label></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════ STEP 2 : ACTIVITÉ ════════════════ -->
+    <div class="card step-card" data-step="2" style="display:none">
+      <h2 class="card-title">Activité & structure</h2>
+      <p class="card-sub">Mêmes questions pour les deux cas (projet ou société existante).</p>
+
+      <!-- Q8 : Secteur -->
+      <div class="q-block">
+        <div class="q-head">
+          <div class="q-num">8</div>
+          <div class="q-label">Secteur d'activité<span class="req">*</span></div>
+        </div>
+        <div class="q-script">
+          <span class="q-script-speaker">Commercial</span>
+          <span class="q-script-line">Quel est votre secteur d'activité ?</span>
+        </div>
+        <div class="q-input-wrap">
+          <select id="secteur" name="secteur" data-save>
+            <option value="">— Sélectionner —</option>
+            <option>Administrations et collectivités</option>
+            <option>Agriculture</option>
+            <option>Association</option>
+            <option>Banque / Finance / Assurance</option>
+            <option>Bijouterie / Joaillerie</option>
+            <option>Boulangerie / Pâtisserie</option>
+            <option>Café / Hôtel / Restaurant / Tourisme</option>
+            <option>Coiffure / Parfumerie / Esthétique</option>
+            <option>Commerce de gros</option>
+            <option>Construction / BTP / Promoteur immobilier</option>
+            <option>Décoration / Architecture</option>
+            <option>Éducation</option>
+            <option>Équipement de personnes</option>
+            <option>Fleurs / Jardinerie</option>
+            <option>Garage / Carrosserie / Station Service / Auto-cycle</option>
+            <option>Horlogerie / Lunetterie / Optique</option>
+            <option>Industrie</option>
+            <option>Informatique / Telecom / Internet</option>
+            <option>Loisirs / Sports / Jouets</option>
+            <option>Prestation de service (photographe, cordonnerie…)</option>
+            <option>Professions libérales</option>
+            <option>Santé / Hôpitaux / Cliniques</option>
+            <option>Services aux entreprises / Conseil</option>
+            <option>Services aux particuliers</option>
+            <option>Transports</option>
+            <option>Autres</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Q9 : Forme juridique -->
+      <div class="q-block">
+        <div class="q-head">
+          <div class="q-num">9</div>
+          <div class="q-label">Statut / Forme juridique<span class="req">*</span>
+            <span class="q-hint">Si société en projet : forme envisagée.</span>
+          </div>
+        </div>
+        <div class="q-script">
+          <span class="q-script-speaker">Commercial</span>
+          <span class="q-script-line">Quelle est la forme juridique (ou envisagée) ?</span>
+        </div>
+        <div class="q-input-wrap">
+          <select id="forme_juridique" name="forme_juridique" data-save>
+            <option value="">— Sélectionner —</option>
+            <option>Créateur d'entreprise</option>
+            <option>Artisan</option>
+            <option>Entreprise individuelle</option>
+            <option>Commerçant</option>
+            <option>Profession libérale</option>
+            <option>Association</option>
+            <option>Organisme à but non lucratif</option>
+            <option>Société civile immobilière SCI</option>
+            <option>Société commerciale SARL, EURL, SAS, SASU, SA</option>
+            <option>Groupe de sociétés</option>
+            <option>Autres</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Q10 : Missions souhaitées -->
+      <div class="q-block">
+        <div class="q-head">
+          <div class="q-num">10</div>
+          <div class="q-label">Mission(s) souhaitée(s)<span class="req">*</span>
+            <span class="q-hint">Plusieurs choix possibles.</span>
+          </div>
+        </div>
+        <div class="q-script">
+          <span class="q-script-speaker">Commercial</span>
+          <span class="q-script-line">Pour quelles missions souhaiteriez-vous qu'on vous accompagne ?</span>
+          <span class="q-script-line">Comptabilité complète, bilan, paie, conseil, aide à la création… ?</span>
+        </div>
+        <div class="q-input-wrap">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <label style="display:flex;gap:8px;padding:8px;border:1px solid var(--border);border-radius:4px;cursor:pointer"><input type="checkbox" name="missions" value="Tenue complète de la comptabilité" data-save> Tenue complète de la comptabilité</label>
+            <label style="display:flex;gap:8px;padding:8px;border:1px solid var(--border);border-radius:4px;cursor:pointer"><input type="checkbox" name="missions" value="Établissement des comptes annuels / liasses fiscales" data-save> Comptes annuels / liasses fiscales</label>
+            <label style="display:flex;gap:8px;padding:8px;border:1px solid var(--border);border-radius:4px;cursor:pointer"><input type="checkbox" name="missions" value="Élaboration d'un prévisionnel / Business plan" data-save> Prévisionnel / Business plan</label>
+            <label style="display:flex;gap:8px;padding:8px;border:1px solid var(--border);border-radius:4px;cursor:pointer"><input type="checkbox" name="missions" value="Gestion de la paie" data-save> Gestion de la paie</label>
+            <label style="display:flex;gap:8px;padding:8px;border:1px solid var(--border);border-radius:4px;cursor:pointer"><input type="checkbox" name="missions" value="Conseil (fiscal, juridique, social)" data-save> Conseil fiscal / juridique / social</label>
+            <label style="display:flex;gap:8px;padding:8px;border:1px solid var(--border);border-radius:4px;cursor:pointer"><input type="checkbox" name="missions" value="Révision de la comptabilité" data-save> Révision de la comptabilité</label>
+            <label style="display:flex;gap:8px;padding:8px;border:1px solid var(--border);border-radius:4px;cursor:pointer"><input type="checkbox" name="missions" value="Aide à la création" data-save> Aide à la création</label>
+            <label style="display:flex;gap:8px;padding:8px;border:1px solid var(--border);border-radius:4px;cursor:pointer"><input type="checkbox" name="missions" value="Autre" data-save> Autre</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════ STEP 3 : EXPERT-COMPTABLE ACTUEL ════════════════ -->
+    <div class="card step-card" data-step="3" style="display:none">
+      <h2 class="card-title">Situation comptable actuelle</h2>
+      <p class="card-sub">Comprendre le contexte pour bien positionner la reprise.</p>
+
+      <!-- Q11 : A un comptable ? -->
+      <div class="q-block">
+        <div class="q-head">
+          <div class="q-num">11</div>
+          <div class="q-label">A-t-il un expert-comptable actuellement ?<span class="req">*</span></div>
+        </div>
+        <div class="q-script">
+          <span class="q-script-speaker">Commercial</span>
+          <span class="q-script-line">Vous avez déjà un expert-comptable, ou on part de zéro ?</span>
+        </div>
+        <div class="q-input-wrap">
+          <div class="choice-group">
+            <div class="choice"><input type="radio" id="ec-oui" name="expert_actuel" value="Oui" data-save onchange="toggleEC()"><label for="ec-oui" class="yes-style">Oui</label></div>
+            <div class="choice"><input type="radio" id="ec-non" name="expert_actuel" value="Non" data-save onchange="toggleEC()"><label for="ec-non" class="no-style">Non</label></div>
+          </div>
+        </div>
+
+        <div class="branch" id="branch-ec">
+          <div class="branch-title">Si le prospect a déjà un expert-comptable</div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num">11a</div>
+              <div class="q-label">Raison du changement de comptable
+                <span class="q-hint">Question clé — écoutez activement.</span>
+              </div>
+            </div>
+            <div class="q-script">
+              <span class="q-script-speaker">Commercial</span>
+              <span class="q-script-line">Pour quelle raison souhaitez-vous changer de comptable ?</span>
+            </div>
+            <div class="q-input-wrap">
+              <textarea id="raison_changement" name="raison_changement" data-save rows="3" placeholder="Prix, service, relation, erreurs, proximité…"></textarea>
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num">11b</div>
+              <div class="q-label">Date de clôture de l'exercice</div>
+            </div>
+            <div class="q-input-wrap">
+              <input type="text" id="date_cloture" name="date_cloture" data-save placeholder="Ex : 31/12, 30/06…" style="max-width:220px">
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num">11c</div>
+              <div class="q-label">Le dernier bilan est-il finalisé ?</div>
+            </div>
+            <div class="q-input-wrap">
+              <div class="choice-group">
+                <div class="choice"><input type="radio" id="bilan-oui" name="bilan_finalise" value="Oui" data-save><label for="bilan-oui" class="yes-style">Oui</label></div>
+                <div class="choice"><input type="radio" id="bilan-non" name="bilan_finalise" value="Non" data-save><label for="bilan-non" class="no-style">Non</label></div>
+                <div class="choice"><input type="radio" id="bilan-nsp" name="bilan_finalise" value="Ne sait pas" data-save><label for="bilan-nsp">Ne sait pas</label></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num">11d</div>
+              <div class="q-label">Cabinet actuel informé de la résiliation ?</div>
+            </div>
+            <div class="q-input-wrap">
+              <div class="choice-group">
+                <div class="choice"><input type="radio" id="resil-oui" name="resiliation_informee" value="Oui" data-save><label for="resil-oui" class="yes-style">Oui</label></div>
+                <div class="choice"><input type="radio" id="resil-non" name="resiliation_informee" value="Non" data-save><label for="resil-non" class="no-style">Non</label></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num">11e</div>
+              <div class="q-label">Coordonnées du cabinet actuel
+                <span class="q-hint">Obligation AUCTUS d'informer le cabinet de la reprise de dossier.</span>
+              </div>
+            </div>
+            <div class="q-script">
+              <span class="q-script-speaker">Commercial</span>
+              <span class="q-script-line">Pouvez-vous nous communiquer les coordonnées de votre cabinet ? C'est une obligation de notre part de l'informer que nous reprenons le dossier et de récupérer vos documents.</span>
+            </div>
+            <div class="q-input-wrap">
+              <textarea id="cabinet_actuel" name="cabinet_actuel" data-save rows="3" placeholder="Nom du cabinet, nom du contact, téléphone, email…"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════ STEP 4 : CLÔTURE ════════════════ -->
+    <div class="card step-card" data-step="4" style="display:none">
+      <h2 class="card-title">Clôture & prochaines étapes</h2>
+      <p class="card-sub">Récapitulatif + actions post-appel.</p>
+
+      <!-- Récap -->
+      <div class="q-block">
+        <div class="q-head">
+          <div class="q-num">✓</div>
+          <div class="q-label">Récapitulatif de l'échange</div>
+        </div>
+        <div class="q-input-wrap">
+          <div class="recap" id="recap"></div>
+        </div>
+      </div>
+
+      <!-- Actions post-appel -->
+      <div class="q-block">
+        <div class="q-head">
+          <div class="q-num">12</div>
+          <div class="q-label">Actions à déclencher après l'appel
+            <span class="q-hint">Ces actions sont automatiquement envoyées à Pipedrive via Make.</span>
+          </div>
+        </div>
+        <div class="q-script">
+          <span class="q-script-speaker">Commercial</span>
+          <span class="q-script-line" data-if="creee">Pour avancer, je vais vous envoyer un SMS avec un lien pour me transmettre votre KBIS et vos derniers documents fiscaux.</span>
+          <span class="q-script-line" data-if="projet">Je vais vous envoyer un SMS avec nos coordonnées ainsi qu'un mail pour recevoir vos documents de business plan si vous en avez.</span>
+        </div>
+        <div class="q-input-wrap">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <label style="display:flex;gap:8px;padding:10px;border:1px solid var(--border);border-radius:4px;cursor:pointer"><input type="checkbox" name="actions" value="Envoi SMS avec lien KBIS / Impôts" data-save checked> 📱 SMS lien KBIS / Impôts</label>
+            <label style="display:flex;gap:8px;padding:10px;border:1px solid var(--border);border-radius:4px;cursor:pointer"><input type="checkbox" name="actions" value="Envoi SMS avec coordonnées cabinet" data-save> 📱 SMS coordonnées cabinet</label>
+            <label style="display:flex;gap:8px;padding:10px;border:1px solid var(--border);border-radius:4px;cursor:pointer"><input type="checkbox" name="actions" value="Envoi mail demande documents BP" data-save> 📧 Mail demande documents BP</label>
+            <label style="display:flex;gap:8px;padding:10px;border:1px solid var(--border);border-radius:4px;cursor:pointer"><input type="checkbox" name="actions" value="Rappel sous 24-48h" data-save> ⏰ Rappel 24-48h</label>
+            <label style="display:flex;gap:8px;padding:10px;border:1px solid var(--border);border-radius:4px;cursor:pointer"><input type="checkbox" name="actions" value="Envoi proposition commerciale" data-save> 📄 Proposition commerciale</label>
+            <label style="display:flex;gap:8px;padding:10px;border:1px solid var(--border);border-radius:4px;cursor:pointer"><input type="checkbox" name="actions" value="RDV physique à planifier" data-save> 🤝 RDV physique à planifier</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Verdict -->
+      <div class="q-block">
+        <div class="q-head">
+          <div class="q-num">13</div>
+          <div class="q-label">Qualification<span class="req">*</span></div>
+        </div>
+        <div class="q-input-wrap">
+          <div class="choice-group">
+            <div class="choice"><input type="radio" id="v-qualif" name="verdict" value="Qualifié" data-save><label for="v-qualif" class="yes-style">✓ Qualifié</label></div>
+            <div class="choice"><input type="radio" id="v-chaud" name="verdict" value="À relancer" data-save><label for="v-chaud">↻ À relancer</label></div>
+            <div class="choice"><input type="radio" id="v-nonqualif" name="verdict" value="Non qualifié" data-save><label for="v-nonqualif" class="no-style">✕ Non qualifié</label></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-head">
+          <div class="q-num">14</div>
+          <div class="q-label">Commentaire final / verbatim</div>
+        </div>
+        <div class="q-input-wrap">
+          <textarea id="commentaire_final" name="commentaire_final" data-save rows="3" placeholder="Ressenti, ton, signaux faibles, éléments à retenir…"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- ━━━━━━━━━━ STICKY NAV ━━━━━━━━━━ -->
+    <div class="nav">
+      <div class="nav-inner">
+        <button type="button" class="btn btn-ghost" onclick="prevStep()" id="btn-prev">← Précédent</button>
+        <div class="nav-step-indicator">
+          Étape <strong id="step-current">1</strong> / <strong>5</strong>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button type="button" class="btn btn-ghost" onclick="resetForm()" title="Réinitialiser le formulaire">↺</button>
+          <button type="button" class="btn btn-primary" onclick="nextStep()" id="btn-next">Suivant →</button>
+          <button type="button" class="btn btn-accent" onclick="submitForm()" id="btn-submit" style="display:none">Envoyer vers Pipedrive ✓</button>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+  <!-- ━━━━━━━━━━ NOTES PANE (fixe, toujours visible) ━━━━━━━━━━ -->
+  <div class="notes-pane" id="notes-pane">
+    <div class="notes-pane-head">
+      <h3><span>📌</span> Message libre / Verbatim</h3>
+      <button class="notes-pane-toggle" onclick="toggleNotes()" title="Réduire / agrandir">−</button>
+    </div>
+    <div class="notes-pane-body">
+      <textarea id="notes_libres" name="notes_libres" data-save placeholder="Notez ici pendant l'appel, du début à la fin. Épinglé, toujours visible."></textarea>
+      <div class="notes-pane-counter" id="notes-counter">0 caractères</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+//  CONFIGURATION
+// ══════════════════════════════════════════════
+const CONFIG = {
+  // URL du webhook Make (à remplacer une fois créé)
+  WEBHOOK_URL: 'https://hook.eu2.make.com/XXXX_REMPLACER_XXXX',
+  STORAGE_KEY: 'auctus_qualif_draft_v1',
+  AUTOSAVE_DELAY: 800,
+  TOTAL_STEPS: 5
+};
+
+// ══════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════
+let currentStep = 0;
+let dealId = null;
+let autosaveTimer = null;
+
+// ══════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('today-date').textContent =
+    new Date().toLocaleDateString('fr-FR', { day:'2-digit', month:'long', year:'numeric' });
+
+  loadDraft();
+  readURLParams();
+
+  // Auto-save on any change
+  document.querySelectorAll('[data-save]').forEach(el => {
+    el.addEventListener('input', scheduleAutosave);
+    el.addEventListener('change', scheduleAutosave);
+  });
+
+  document.getElementById('concurrents-oui') || document.querySelectorAll('input[name="concurrents"]').forEach(r => {
+    r.addEventListener('change', () => {
+      document.getElementById('concur-detail-wrap').style.display =
+        r.value === 'Oui' && r.checked ? 'block' : 'none';
+    });
+  });
+
+  updateStepUI();
+  initNotesPane();
+});
+
+// ══════════════════════════════════════════════
+//  URL PARAMS (prefill fallback + deal_id)
+// ══════════════════════════════════════════════
+function readURLParams() {
+  const params = new URLSearchParams(window.location.search);
+  dealId = params.get('deal_id');
+
+  const map = {
+    prenom: 'prenom',
+    nom: 'nom',
+    email: 'email',
+    tel: 'telephone',
+    telephone: 'telephone',
+    code_postal: 'code_postal',
+    cp: 'code_postal',
+    entreprise: 'entreprise'
+  };
+
+  let prefilled = false;
+  for (const [urlKey, fieldId] of Object.entries(map)) {
+    const val = params.get(urlKey);
+    if (val) {
+      const el = document.getElementById(fieldId);
+      if (el) { el.value = decodeURIComponent(val); el.classList.add('prefilled'); prefilled = true; }
+    }
+  }
+
+  // Message du formulaire de contact → bloc fixe sous code postal
+  const message = params.get('message');
+  if (message) {
+    document.getElementById('contact-message-display').textContent = decodeURIComponent(message);
+    document.getElementById('contact-message-block').style.display = 'block';
+  }
+
+  if (dealId) {
+    fetchPrefillFromMake(dealId);
+  } else if (prefilled) {
+    showBanner('info', '✓ Données pré-remplies depuis l\'URL. Vérifiez l\'orthographe avec le prospect.');
+  }
+}
+
+async function fetchPrefillFromMake(deal_id) {
+  showBanner('info', '⏳ Chargement des données Pipedrive…');
+  try {
+    const res = await fetch(CONFIG.WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'prefill', deal_id })
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+
+    const mapping = {
+      prenom: data.prenom || data.first_name,
+      nom: data.nom || data.last_name,
+      email: data.email,
+      telephone: data.telephone || data.phone,
+      code_postal: data.code_postal,
+      entreprise: data.entreprise || data.organization
+    };
+    for (const [k, v] of Object.entries(mapping)) {
+      if (v) {
+        const el = document.getElementById(k);
+        if (el) { el.value = v; el.classList.add('prefilled'); }
+      }
+    }
+
+    // Message du formulaire contact → bloc fixe sous code postal
+    const msg = data.message || data.message_contact;
+    if (msg) {
+      document.getElementById('contact-message-display').textContent = msg;
+      document.getElementById('contact-message-block').style.display = 'block';
+    }
+    showBanner('success', '✓ Données Pipedrive chargées (deal #' + deal_id + ')');
+  } catch (e) {
+    console.warn('Prefill échoué :', e);
+    showBanner('info', 'ℹ Formulaire ouvert sans données Pipedrive. Remplissez manuellement.');
+  }
+}
+
+// ══════════════════════════════════════════════
+//  STEP NAVIGATION
+// ══════════════════════════════════════════════
+function goStep(n) {
+  if (n < 0 || n >= CONFIG.TOTAL_STEPS) return;
+  currentStep = n;
+  updateStepUI();
+}
+function nextStep() { if (currentStep < CONFIG.TOTAL_STEPS - 1) goStep(currentStep + 1); }
+function prevStep() { if (currentStep > 0) goStep(currentStep - 1); }
+
+function updateStepUI() {
+  document.querySelectorAll('.step-card').forEach(c => {
+    c.style.display = parseInt(c.dataset.step) === currentStep ? 'block' : 'none';
+  });
+  document.querySelectorAll('.step').forEach(s => {
+    const i = parseInt(s.dataset.step);
+    s.classList.toggle('active', i === currentStep);
+    s.classList.toggle('done', i < currentStep);
+  });
+  document.getElementById('btn-prev').disabled = currentStep === 0;
+  document.getElementById('btn-next').style.display = currentStep < CONFIG.TOTAL_STEPS - 1 ? 'inline-block' : 'none';
+  document.getElementById('btn-submit').style.display = currentStep === CONFIG.TOTAL_STEPS - 1 ? 'inline-block' : 'none';
+
+  // Update step indicator in sticky nav
+  const stepIndicator = document.getElementById('step-current');
+  if (stepIndicator) stepIndicator.textContent = currentStep + 1;
+
+  if (currentStep === CONFIG.TOTAL_STEPS - 1) buildRecap();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ══════════════════════════════════════════════
+//  BRANCHING LOGIC
+// ══════════════════════════════════════════════
+function toggleBranch() {
+  const val = document.querySelector('input[name="etat_societe"]:checked')?.value;
+  document.getElementById('branch-creee').classList.toggle('visible', val === 'creee');
+  document.getElementById('branch-projet').classList.toggle('visible', val === 'projet');
+}
+function toggleSalaries() {
+  const val = document.querySelector('input[name="salaries"]:checked')?.value;
+  document.getElementById('nb-salaries-wrap').style.display = val === 'Oui' ? 'block' : 'none';
+}
+function toggleAssocies() {
+  const val = document.querySelector('input[name="associes_prev"]:checked')?.value;
+  document.getElementById('nb-associes-wrap').style.display = val === 'Oui' ? 'block' : 'none';
+}
+function toggleEC() {
+  const val = document.querySelector('input[name="expert_actuel"]:checked')?.value;
+  document.getElementById('branch-ec').classList.toggle('visible', val === 'Oui');
+}
+
+// ══════════════════════════════════════════════
+//  NOTES PANE (état persistant + compteur)
+// ══════════════════════════════════════════════
+function toggleNotes() {
+  const pane = document.getElementById('notes-pane');
+  pane.classList.toggle('collapsed');
+  const btn = pane.querySelector('.notes-pane-toggle');
+  const collapsed = pane.classList.contains('collapsed');
+  btn.textContent = collapsed ? '+' : '−';
+  btn.title = collapsed ? 'Agrandir' : 'Réduire';
+  localStorage.setItem('auctus_notes_collapsed', collapsed ? '1' : '0');
+}
+
+function initNotesPane() {
+  // Restaurer l'état plié/déplié
+  if (localStorage.getItem('auctus_notes_collapsed') === '1') {
+    const pane = document.getElementById('notes-pane');
+    pane.classList.add('collapsed');
+    pane.querySelector('.notes-pane-toggle').textContent = '+';
+  }
+  // Compteur de caractères live
+  const ta = document.getElementById('notes_libres');
+  const counter = document.getElementById('notes-counter');
+  const updateCounter = () => {
+    const n = ta.value.length;
+    counter.textContent = n + ' caractère' + (n > 1 ? 's' : '');
+  };
+  ta.addEventListener('input', updateCounter);
+  updateCounter();
+}
+
+// ══════════════════════════════════════════════
+//  AUTOSAVE (localStorage)
+// ══════════════════════════════════════════════
+function scheduleAutosave() {
+  clearTimeout(autosaveTimer);
+  document.getElementById('autosave').textContent = '⌛ Saisie en cours…';
+  autosaveTimer = setTimeout(saveDraft, CONFIG.AUTOSAVE_DELAY);
+}
+
+function collectData() {
+  const data = {};
+  document.querySelectorAll('[data-save]').forEach(el => {
+    if (el.type === 'checkbox') {
+      if (!data[el.name]) data[el.name] = [];
+      if (el.checked) data[el.name].push(el.value);
+    } else if (el.type === 'radio') {
+      if (el.checked) data[el.name] = el.value;
+    } else {
+      if (el.id) data[el.id] = el.value;
+    }
+  });
+  data.deal_id = dealId;
+  return data;
+}
+
+function saveDraft() {
+  try {
+    localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(collectData()));
+    document.getElementById('autosave').textContent = '✓ Sauvegardé ' + new Date().toLocaleTimeString('fr-FR');
+  } catch (e) {
+    document.getElementById('autosave').textContent = '⚠ Erreur sauvegarde';
+  }
+}
+
+function loadDraft() {
+  try {
+    const raw = localStorage.getItem(CONFIG.STORAGE_KEY);
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    for (const [key, val] of Object.entries(data)) {
+      const el = document.getElementById(key);
+      if (el && typeof val === 'string') el.value = val;
+      // radios
+      document.querySelectorAll(`input[name="${key}"]`).forEach(r => {
+        if (r.type === 'radio' && r.value === val) r.checked = true;
+        if (r.type === 'checkbox' && Array.isArray(val) && val.includes(r.value)) r.checked = true;
+      });
+    }
+    // Re-apply branch visibility after load
+    toggleBranch();
+    toggleSalaries();
+    toggleAssocies();
+    toggleEC();
+    document.getElementById('autosave').textContent = '✓ Brouillon restauré';
+  } catch (e) {
+    console.warn('Load draft failed', e);
+  }
+}
+
+function resetForm() {
+  if (!confirm('Réinitialiser le formulaire ? Cette action est définitive.')) return;
+  localStorage.removeItem(CONFIG.STORAGE_KEY);
+  document.getElementById('qualif-form').reset();
+  document.querySelectorAll('.branch').forEach(b => b.classList.remove('visible'));
+  currentStep = 0;
+  updateStepUI();
+  document.getElementById('autosave').textContent = 'Réinitialisé';
+  showBanner('info', 'Formulaire réinitialisé.');
+}
+
+// ══════════════════════════════════════════════
+//  RECAP
+// ══════════════════════════════════════════════
+function buildRecap() {
+  const data = collectData();
+  const items = [
+    ['Contact', [data.prenom, data.nom].filter(Boolean).join(' ')],
+    ['Email', data.email],
+    ['Téléphone', data.telephone],
+    ['Code postal', data.code_postal],
+    ['Société', data.etat_societe === 'creee' ? 'Déjà créée' : data.etat_societe === 'projet' ? 'En projet' : ''],
+    ['Secteur', data.secteur],
+    ['Forme juridique', data.forme_juridique],
+    ['Missions', Array.isArray(data.missions) ? data.missions.join(', ') : ''],
+    ['CA', data.ca],
+    ['Expert-comptable actuel', data.expert_actuel],
+    ['Concurrents contactés', data.concurrents === 'Oui' ? data.concurrents_details || 'Oui' : data.concurrents],
+    ['Verdict', data.verdict]
+  ];
+  document.getElementById('recap').innerHTML = items.map(([l, v]) => `
+    <div class="recap-item">
+      <div class="recap-label">${l}</div>
+      <div class="recap-value ${!v ? 'empty' : ''}">${v || '—'}</div>
+    </div>
+  `).join('');
+}
+
+// ══════════════════════════════════════════════
+//  SUBMISSION
+// ══════════════════════════════════════════════
+async function submitForm() {
+  const data = collectData();
+
+  // Validation minimale
+  if (!data.prenom || !data.nom || !data.email || !data.telephone) {
+    showBanner('error', '⚠ Nom, prénom, email et téléphone sont obligatoires.');
+    goStep(0);
+    return;
+  }
+  if (!data.verdict) {
+    showBanner('error', '⚠ Merci de sélectionner un verdict.');
+    return;
+  }
+
+  const btn = document.getElementById('btn-submit');
+  btn.disabled = true;
+  btn.textContent = 'Envoi en cours…';
+  showBanner('info', '⏳ Envoi vers Pipedrive via Make.com…');
+
+  try {
+    const payload = {
+      type: 'qualification_complete',
+      submitted_at: new Date().toISOString(),
+      ...data
+    };
+    const res = await fetch(CONFIG.WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+
+    showBanner('success', '✓ Qualification envoyée avec succès vers Pipedrive. Vous pouvez fermer cette page.');
+    btn.textContent = '✓ Envoyé';
+    localStorage.removeItem(CONFIG.STORAGE_KEY);
+  } catch (e) {
+    console.error(e);
+    showBanner('error', '⚠ Erreur d\'envoi : ' + e.message + '. Vos données sont sauvegardées en local.');
+    btn.disabled = false;
+    btn.textContent = 'Renvoyer vers Pipedrive ✓';
+  }
+}
+
+// ══════════════════════════════════════════════
+//  UTILS
+// ══════════════════════════════════════════════
+function showBanner(type, msg) {
+  const el = document.getElementById('banner');
+  el.className = 'banner banner-' + type + ' visible';
+  el.textContent = msg;
+  if (type === 'success') setTimeout(() => el.classList.remove('visible'), 8000);
+}
+
+// Concurrents toggle
+document.addEventListener('change', e => {
+  if (e.target.name === 'concurrents') {
+    document.getElementById('concur-detail-wrap').style.display =
+      e.target.value === 'Oui' ? 'block' : 'none';
+  }
+});
+</script>
+
+</body>
+</html>
