@@ -1,0 +1,2184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Script de qualification téléphonique – Cabinet AUCTUS</title>
+<style>
+  :root {
+    /* Charte AUCTUS */
+    --mauve: #4E2DBD;
+    --mauve-dark: #3a1f96;
+    --mauve-light: #6e52d4;
+    --rouge: #E61D4F;
+    --rouge-dark: #b8163e;
+    --rose: #BD2C9B;
+    --rose-light: #d44ab5;
+
+    --bg: #f7f5fb;
+    --surface: #ffffff;
+    --border: #e4def0;
+    --border-strong: #cdc1e3;
+    --text: #1c1233;
+    --text-soft: #524769;
+    --text-muted: #8a82a0;
+    --success: #2d7a4f;
+    --success-bg: #e8f3ec;
+    --danger: #c0382b;
+    --warning-bg: #fff4e6;
+    --script-bg: #faf7ff;
+    --script-border: #e0d5f5;
+    --radius: 8px;
+    --radius-sm: 5px;
+    --shadow: 0 1px 3px rgba(78,45,189,0.06), 0 8px 24px rgba(78,45,189,0.04);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: 90px;
+  }
+
+  .page {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 24px 40px;
+  }
+
+  /* ━━━━━━━━━━ STICKY HEADER ━━━━━━━━━━ */
+  .header-sticky {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg);
+    padding: 16px 0 12px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .header {
+    background: linear-gradient(135deg, var(--mauve) 0%, var(--rose) 100%);
+    color: #fff;
+    padding: 18px 28px;
+    border-radius: var(--radius);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(78,45,189,0.18);
+  }
+  .header::before {
+    content: "";
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: 4px;
+    background: var(--rouge);
+  }
+  .header-brand { display: flex; align-items: center; gap: 14px; }
+  .header-logo {
+    width: 48px; height: 48px;
+    background: rgba(255,255,255,0.15);
+    border: 1.5px solid rgba(255,255,255,0.5);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: 1px;
+    color: #fff;
+  }
+  .header-title {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    margin: 0;
+    line-height: 1.2;
+  }
+  .header-sub {
+    font-size: 11px;
+    color: rgba(255,255,255,0.85);
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    margin-top: 3px;
+    font-weight: 500;
+  }
+  .header-meta {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .header-info {
+    font-size: 11px;
+    color: rgba(255,255,255,0.75);
+    text-align: right;
+    line-height: 1.5;
+  }
+  .header-info strong { color: #fff; font-weight: 600; }
+
+  /* Timer */
+  .timer {
+    background: rgba(0,0,0,0.25);
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .timer-icon { font-size: 16px; }
+  .timer-value {
+    font-family: "JetBrains Mono", "Courier New", monospace;
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 1px;
+    min-width: 60px;
+  }
+  .timer-controls {
+    display: flex;
+    gap: 4px;
+  }
+  .timer-btn {
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: #fff;
+    width: 24px; height: 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 11px;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+  }
+  .timer-btn:hover { background: rgba(255,255,255,0.3); }
+
+  /* Progress */
+  .progress-wrap {
+    background: var(--surface);
+    padding: 14px 20px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    margin-top: 12px;
+  }
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4px;
+  }
+  .step {
+    text-align: center;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    color: var(--text-muted);
+    padding: 6px 4px 10px;
+    border-bottom: 2px solid var(--border);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+  }
+  .step.active {
+    color: var(--mauve);
+    border-bottom-color: var(--mauve);
+    font-weight: 700;
+  }
+  .step.done {
+    color: var(--rose);
+    border-bottom-color: var(--rose);
+  }
+  .step-num {
+    display: inline-block;
+    width: 18px; height: 18px;
+    line-height: 16px;
+    border: 1.5px solid currentColor;
+    border-radius: 50%;
+    font-size: 10px;
+    margin-right: 6px;
+    font-weight: 700;
+  }
+  .autosave-indicator {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-align: right;
+    font-style: italic;
+    margin-top: 6px;
+  }
+
+  /* ━━━━━━━━━━ CARD ━━━━━━━━━━ */
+  .card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 28px 36px;
+    margin-bottom: 16px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+  }
+  .card-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--mauve);
+    margin: 0 0 4px;
+    letter-spacing: -0.2px;
+  }
+  .card-sub {
+    font-size: 13px;
+    color: var(--text-soft);
+    margin: 0 0 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* Questions */
+  .q-block {
+    margin-bottom: 22px;
+    padding-bottom: 22px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .q-block:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+
+  .q-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .q-num {
+    background: var(--mauve);
+    color: #fff;
+    min-width: 28px; height: 28px;
+    padding: 0 6px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .q-num.alt { background: var(--rose); }
+  .q-num.warn { background: var(--rouge); }
+
+  .q-label {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    flex: 1;
+    padding-top: 4px;
+  }
+  .q-label .req { color: var(--rouge); margin-left: 3px; }
+  .q-hint {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-style: italic;
+    font-weight: 400;
+    margin-top: 3px;
+    display: block;
+  }
+
+  .q-script {
+    background: var(--script-bg);
+    border-left: 3px solid var(--mauve);
+    padding: 10px 14px;
+    margin: 0 0 12px 38px;
+    font-size: 13px;
+    color: var(--text-soft);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  }
+  .q-script-speaker {
+    font-weight: 700;
+    color: var(--mauve);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .q-script-line { display: block; margin: 4px 0; line-height: 1.55; }
+  .q-script-line::before { content: "« "; color: var(--rose); font-weight: 700; }
+  .q-script-line::after { content: " »"; color: var(--rose); font-weight: 700; }
+
+  .q-input-wrap { margin-left: 38px; }
+
+  /* Inputs */
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="date"],
+  textarea {
+    width: 100%;
+    padding: 10px 13px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--text);
+    background: #fff;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--mauve);
+    box-shadow: 0 0 0 3px rgba(78,45,189,0.12);
+  }
+  input.prefilled {
+    background: var(--script-bg);
+    color: var(--text);
+    border-color: var(--mauve-light);
+  }
+  textarea { resize: vertical; min-height: 80px; font-family: inherit; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .grid-phone { display: grid; grid-template-columns: 110px 1fr; gap: 8px; }
+
+  .sub-field { margin-top: 10px; }
+  .sub-field label {
+    font-size: 12px;
+    color: var(--text-soft);
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+  .sub-field-inline { display: flex; gap: 12px; align-items: center; }
+
+  /* ━━━━━━━━━━ TAGS (radio/checkbox cliquables) ━━━━━━━━━━ */
+  .tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .tag {
+    position: relative;
+  }
+  .tag input { position: absolute; opacity: 0; pointer-events: none; }
+  .tag label {
+    display: inline-block;
+    padding: 8px 14px;
+    border: 1.5px solid var(--border-strong);
+    border-radius: 100px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--text-soft);
+    transition: all 0.15s;
+    background: #fff;
+    user-select: none;
+  }
+  .tag label:hover { border-color: var(--mauve-light); color: var(--mauve); }
+  .tag input:checked + label {
+    border-color: var(--mauve);
+    background: var(--mauve);
+    color: #fff;
+    font-weight: 500;
+  }
+  .tag input:checked + label.yes-style { background: var(--success); border-color: var(--success); }
+  .tag input:checked + label.no-style { background: var(--rouge); border-color: var(--rouge); }
+  .tag input:checked + label.warn-style { background: var(--rose); border-color: var(--rose); }
+
+  /* Layout grilles pour tags multi (secteurs, missions) */
+  .tags-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 6px;
+  }
+  .tags-grid .tag label {
+    text-align: center;
+    width: 100%;
+    padding: 9px 10px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* Branch */
+  .branch {
+    margin-top: 14px;
+    margin-left: 38px;
+    padding: 18px 22px;
+    background: var(--script-bg);
+    border: 1.5px dashed var(--script-border);
+    border-radius: var(--radius);
+    display: none;
+  }
+  .branch.visible { display: block; }
+  .branch-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--rose);
+    font-weight: 700;
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* Sub-branch (within branch) */
+  .sub-branch {
+    margin-top: 12px;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.7);
+    border-left: 3px solid var(--rose);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    display: none;
+  }
+  .sub-branch.visible { display: block; }
+  .sub-branch-title {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--rose);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  /* Contact form summary box */
+  .contact-summary {
+    background: linear-gradient(135deg, var(--script-bg), #fff);
+    border: 1.5px solid var(--script-border);
+    border-left: 4px solid var(--rose);
+    padding: 16px 20px;
+    border-radius: var(--radius);
+  }
+  .contact-summary-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--rose);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .contact-summary-message {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.55;
+    white-space: pre-wrap;
+    font-style: italic;
+  }
+  .contact-summary-meta {
+    font-size: 12px;
+    color: var(--text-soft);
+    margin-bottom: 8px;
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .contact-summary-meta span strong { color: var(--mauve); }
+
+  /* Sticky bottom navigation */
+  .nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--surface);
+    border-top: 1px solid var(--border-strong);
+    padding: 12px 20px;
+    z-index: 90;
+    box-shadow: 0 -4px 16px rgba(78,45,189,0.08);
+  }
+  .nav-inner {
+    max-width: 1140px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: center;
+  }
+  .nav-step-indicator {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
+  }
+  .nav-step-indicator strong { color: var(--mauve); font-weight: 700; }
+
+  .btn {
+    padding: 10px 22px;
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: 1.5px solid transparent;
+    letter-spacing: 0.2px;
+  }
+  .btn-primary { background: var(--mauve); color: #fff; border-color: var(--mauve); }
+  .btn-primary:hover { background: var(--mauve-dark); }
+  .btn-accent { background: var(--rouge); color: #fff; border-color: var(--rouge); }
+  .btn-accent:hover { background: var(--rouge-dark); }
+  .btn-ghost { background: transparent; color: var(--text-soft); border-color: var(--border-strong); }
+  .btn-ghost:hover { background: var(--script-bg); border-color: var(--mauve); color: var(--mauve); }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* Banner */
+  .banner {
+    padding: 12px 18px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 16px;
+    font-size: 13px;
+    display: none;
+  }
+  .banner.visible { display: block; }
+  .banner-info { background: #eef0fb; border-left: 3px solid var(--mauve); color: var(--mauve-dark); }
+  .banner-success { background: var(--success-bg); border-left: 3px solid var(--success); color: var(--success); }
+  .banner-error { background: #fbebeb; border-left: 3px solid var(--danger); color: var(--danger); }
+
+  /* Recap */
+  .recap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 24px;
+    margin-bottom: 8px;
+  }
+  .recap-item { padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .recap-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-muted); }
+  .recap-value { font-size: 14px; color: var(--mauve); font-weight: 500; margin-top: 2px; word-break: break-word; }
+  .recap-value.empty { color: var(--text-muted); font-weight: 400; font-style: italic; }
+
+  /* Action card style for closing step */
+  .action-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .action-item {
+    display: flex;
+    gap: 10px;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.15s;
+    background: #fff;
+  }
+  .action-item:hover { border-color: var(--mauve-light); background: var(--script-bg); }
+  .action-item input { margin-top: 3px; accent-color: var(--mauve); }
+  .action-item-content { flex: 1; }
+  .action-item-title { font-weight: 600; color: var(--text); font-size: 13px; }
+  .action-item-desc { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+  /* Add second contact button */
+  .add-second-contact {
+    margin-top: 12px;
+    padding: 8px 14px;
+    background: transparent;
+    border: 1.5px dashed var(--mauve-light);
+    border-radius: var(--radius-sm);
+    color: var(--mauve);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: inherit;
+    width: 100%;
+    transition: all 0.15s;
+  }
+  .add-second-contact:hover { background: var(--script-bg); border-style: solid; }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .page { padding: 0 14px 40px; }
+    .card { padding: 22px 20px; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .q-script, .q-input-wrap, .branch { margin-left: 0; }
+    .recap, .action-list { grid-template-columns: 1fr; }
+    .header { padding: 14px 18px; }
+    .header-title { font-size: 16px; }
+    .steps { font-size: 9px; }
+    .step-num { display: none; }
+    .header-meta { width: 100%; justify-content: space-between; }
+  }
+
+  /* Print */
+  @media print {
+    body { background: #fff; padding: 0; }
+    .nav, .header-sticky { display: none; }
+    .card { box-shadow: none; border: 1px solid #ccc; page-break-inside: avoid; }
+    .step-card[style*="display: none"] { display: block !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ━━━━━━━━━━ STICKY HEADER ━━━━━━━━━━ -->
+  <div class="header-sticky">
+    <div class="header">
+      <div class="header-brand">
+        <div class="header-logo">A</div>
+        <div>
+          <h1 class="header-title">Cabinet AUCTUS</h1>
+          <div class="header-sub">Script de qualification téléphonique</div>
+        </div>
+      </div>
+      <div class="header-meta">
+        <div class="timer">
+          <span class="timer-icon">⏱</span>
+          <span class="timer-value" id="timer-value">00:00</span>
+          <div class="timer-controls">
+            <button class="timer-btn" onclick="toggleTimer()" id="timer-toggle" title="Pause/Reprise">⏸</button>
+            <button class="timer-btn" onclick="resetTimer()" title="Réinitialiser">↺</button>
+          </div>
+        </div>
+        <div class="header-info">
+          Créé le <strong id="created-at"></strong><br>
+          <span id="last-save">Sauvegarde : —</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Progress -->
+    <div class="progress-wrap">
+      <div class="steps">
+        <div class="step active" data-step="0" onclick="goStep(0)"><span class="step-num">1</span>Contact</div>
+        <div class="step" data-step="1" onclick="goStep(1)"><span class="step-num">2</span>Société</div>
+        <div class="step" data-step="2" onclick="goStep(2)"><span class="step-num">3</span>Activité</div>
+        <div class="step" data-step="3" onclick="goStep(3)"><span class="step-num">4</span>Sectoriel</div>
+        <div class="step" data-step="4" onclick="goStep(4)"><span class="step-num">5</span>Comptable</div>
+        <div class="step" data-step="5" onclick="goStep(5)"><span class="step-num">6</span>Clôture</div>
+      </div>
+      <div class="autosave-indicator" id="autosave">Prêt</div>
+    </div>
+  </div>
+
+  <!-- Banner -->
+  <div id="banner" class="banner"></div>
+
+  <form id="qualif-form" onsubmit="return false;">
+
+    <!-- ════════════════ STEP 0 : CONTACT ════════════════ -->
+    <div class="card step-card" data-step="0">
+      <h2 class="card-title">Prise de contact</h2>
+      <p class="card-sub">Identifier l'interlocuteur et ouvrir l'échange.</p>
+
+      <!-- Résumé du formulaire de contact (si présent) -->
+      <div class="q-block" id="contact-summary-block" style="display:none">
+        <div class="q-head">
+          <div class="q-num alt">📩</div>
+          <div class="q-label">Demande reçue via le formulaire de contact
+            <span class="q-hint">À lire avant de lancer les questions — c'est le besoin exprimé par le prospect.</span>
+          </div>
+        </div>
+        <div class="q-input-wrap">
+          <div class="contact-summary">
+            <div class="contact-summary-meta" id="contact-summary-meta"></div>
+            <div class="contact-summary-title">💬 Message du prospect</div>
+            <div class="contact-summary-message" id="contact-summary-message"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q1 : Identité -->
+      <div class="q-block">
+        <div class="q-head">
+          <div class="q-num">1</div>
+          <div class="q-label">Identité du contact<span class="req">*</span></div>
+        </div>
+        <div class="q-script">
+          <span class="q-script-speaker">Commercial · Appel entrant</span>
+          <span class="q-script-line">Cabinet AUCTUS bonjour, [prénom] à votre écoute, comment puis-je vous aider ?</span>
+          <span class="q-script-line">Pour commencer pouvez-vous me redonner votre nom et prénom s'il vous plaît ?</span>
+        </div>
+        <div class="q-script">
+          <span class="q-script-speaker">Commercial · Appel sortant</span>
+          <span class="q-script-line">Bonjour, [prénom] du cabinet AUCTUS, est-ce que je suis bien en ligne avec M./Mme [nom] ?</span>
+          <span class="q-script-line">Je vous appelle suite à votre demande, est-ce que c'est le bon moment pour vous ?</span>
+        </div>
+        <div class="q-input-wrap">
+          <div class="grid-2">
+            <div class="sub-field">
+              <label>Prénom</label>
+              <input type="text" id="prenom" name="prenom" data-save>
+            </div>
+            <div class="sub-field">
+              <label>Nom</label>
+              <input type="text" id="nom" name="nom" data-save>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q2 : Email + Email 2 -->
+      <div class="q-block">
+        <div class="q-head">
+          <div class="q-num">2</div>
+          <div class="q-label">Adresse(s) email<span class="req">*</span>
+            <span class="q-hint">Possibilité d'ajouter une seconde adresse email.</span>
+          </div>
+        </div>
+        <div class="q-script">
+          <span class="q-script-speaker">Commercial</span>
+          <span class="q-script-line">Quelle est votre adresse email ? Avez-vous une seconde adresse à laquelle vous souhaitez recevoir nos communications ?</span>
+        </div>
+        <div class="q-input-wrap">
+          <div class="sub-field">
+            <label>Email principal</label>
+            <input type="email" id="email" name="email" data-save placeholder="contact@exemple.fr">
+          </div>
+          <div class="sub-field">
+            <label>Email secondaire (optionnel)</label>
+            <input type="email" id="email2" name="email2" data-save placeholder="autre@exemple.fr">
+          </div>
+        </div>
+      </div>
+
+      <!-- Q3 : Téléphone avec indicatif -->
+      <div class="q-block">
+        <div class="q-head">
+          <div class="q-num">3</div>
+          <div class="q-label">Numéro de téléphone<span class="req">*</span></div>
+        </div>
+        <div class="q-script">
+          <span class="q-script-speaker">Commercial</span>
+          <span class="q-script-line">Quel est le meilleur numéro pour vous joindre ?</span>
+        </div>
+        <div class="q-input-wrap">
+          <div class="grid-phone">
+            <div class="sub-field">
+              <label>Indicatif</label>
+              <input type="text" id="indicatif" name="indicatif" data-save value="+33" maxlength="5">
+            </div>
+            <div class="sub-field">
+              <label>Numéro</label>
+              <input type="tel" id="telephone" name="telephone" data-save placeholder="6 12 34 56 78">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q4 : Code postal -->
+      <div class="q-block">
+        <div class="q-head">
+          <div class="q-num">4</div>
+          <div class="q-label">Code postal</div>
+        </div>
+        <div class="q-script">
+          <span class="q-script-speaker">Commercial</span>
+          <span class="q-script-line">Vous êtes situé dans quel département / code postal ?</span>
+        </div>
+        <div class="q-input-wrap">
+          <input type="text" id="code_postal" name="code_postal" data-save maxlength="5" style="max-width:160px">
+        </div>
+      </div>
+
+      <!-- Q5 : Second contact -->
+      <div class="q-block">
+        <div class="q-head">
+          <div class="q-num alt">+</div>
+          <div class="q-label">Second contact dans la société ?
+            <span class="q-hint">Sera créé en parallèle dans Pipedrive et associé à la même fiche entreprise.</span>
+          </div>
+        </div>
+        <div class="q-input-wrap">
+          <button type="button" class="add-second-contact" onclick="toggleSecondContact()" id="btn-second-contact">
+            + Ajouter un second contact
+          </button>
+          <div id="second-contact-block" style="display:none;margin-top:14px;padding:16px;background:var(--script-bg);border-radius:var(--radius-sm);border:1px solid var(--script-border)">
+            <div class="grid-2">
+              <div class="sub-field"><label>Prénom</label><input type="text" id="contact2_prenom" name="contact2_prenom" data-save></div>
+              <div class="sub-field"><label>Nom</label><input type="text" id="contact2_nom" name="contact2_nom" data-save></div>
+            </div>
+            <div class="sub-field"><label>Fonction</label><input type="text" id="contact2_fonction" name="contact2_fonction" data-save placeholder="Co-gérant, DAF, associé…"></div>
+            <div class="grid-2">
+              <div class="sub-field"><label>Email</label><input type="email" id="contact2_email" name="contact2_email" data-save></div>
+              <div class="sub-field"><label>Téléphone</label><input type="tel" id="contact2_tel" name="contact2_tel" data-save></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════ STEP 1 : SOCIÉTÉ ════════════════ -->
+    <div class="card step-card" data-step="1" style="display:none">
+      <h2 class="card-title">Statut de la société</h2>
+      <p class="card-sub">La question qui fait basculer tout l'entretien — créée ou en projet ?</p>
+
+      <!-- Q6 : État société -->
+      <div class="q-block">
+        <div class="q-head">
+          <div class="q-num">6</div>
+          <div class="q-label">L'entreprise est-elle déjà créée ?<span class="req">*</span></div>
+        </div>
+        <div class="q-script">
+          <span class="q-script-speaker">Commercial</span>
+          <span class="q-script-line">Est-ce que votre société est déjà créée, ou on est encore au stade du projet ?</span>
+        </div>
+        <div class="q-input-wrap">
+          <div class="tags">
+            <div class="tag">
+              <input type="radio" id="etat-creee" name="etat_societe" value="creee" data-save data-deselect onchange="toggleBranch()">
+              <label for="etat-creee" class="yes-style">✓ Déjà créée</label>
+            </div>
+            <div class="tag">
+              <input type="radio" id="etat-projet" name="etat_societe" value="projet" data-save data-deselect onchange="toggleBranch()">
+              <label for="etat-projet" class="warn-style">⊕ En projet</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- ━━━━━━━━━━ BRANCHE A : société déjà créée ━━━━━━━━━━ -->
+        <div class="branch" id="branch-creee">
+          <div class="branch-title">Branche A · Société déjà en activité</div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num alt">A1</div>
+              <div class="q-label">Dénomination de l'entreprise</div>
+            </div>
+            <div class="q-input-wrap">
+              <input type="text" id="denomination" name="denomination" data-save placeholder="Raison sociale">
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num alt">A2</div>
+              <div class="q-label">Forme juridique</div>
+            </div>
+            <div class="q-script">
+              <span class="q-script-speaker">Commercial</span>
+              <span class="q-script-line">Quelle est la forme juridique ?</span>
+            </div>
+            <div class="q-input-wrap">
+              <div class="tags">
+                <div class="tag"><input type="radio" id="fj-sas" name="forme_juridique" value="SAS" data-save data-deselect onchange="toggleSCI()"><label for="fj-sas">SAS</label></div>
+                <div class="tag"><input type="radio" id="fj-sasu" name="forme_juridique" value="SASU" data-save data-deselect onchange="toggleSCI()"><label for="fj-sasu">SASU</label></div>
+                <div class="tag"><input type="radio" id="fj-sarl" name="forme_juridique" value="SARL" data-save data-deselect onchange="toggleSCI()"><label for="fj-sarl">SARL</label></div>
+                <div class="tag"><input type="radio" id="fj-sci" name="forme_juridique" value="SCI" data-save data-deselect onchange="toggleSCI()"><label for="fj-sci">SCI</label></div>
+                <div class="tag"><input type="radio" id="fj-lmnp" name="forme_juridique" value="LMNP" data-save data-deselect onchange="toggleSCI()"><label for="fj-lmnp">LMNP</label></div>
+              </div>
+              <div class="sub-branch" id="sub-sci">
+                <div class="sub-branch-title">Si SCI · Régime fiscal</div>
+                <div class="tags">
+                  <div class="tag"><input type="radio" id="sci-is" name="sci_regime" value="IS (impôt sur les sociétés)" data-save data-deselect><label for="sci-is">IS — Impôt sur les sociétés</label></div>
+                  <div class="tag"><input type="radio" id="sci-ir" name="sci_regime" value="IR (impôt sur le revenu)" data-save data-deselect><label for="sci-ir">IR — Impôt sur le revenu</label></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num alt">A3</div>
+              <div class="q-label">Nombre d'associés</div>
+            </div>
+            <div class="q-input-wrap">
+              <input type="number" id="nb_associes" name="nb_associes" min="0" data-save style="max-width:120px">
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num alt">A4</div>
+              <div class="q-label">Date de création</div>
+            </div>
+            <div class="q-input-wrap">
+              <input type="text" id="date_creation" name="date_creation" data-save placeholder="Ex : 2018, juin 2021…" style="max-width:240px">
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num alt">A5</div>
+              <div class="q-label">Secteur d'activité<span class="req">*</span>
+                <span class="q-hint">Détermine les questions sectorielles à l'étape 4.</span>
+              </div>
+            </div>
+            <div class="q-script">
+              <span class="q-script-speaker">Commercial</span>
+              <span class="q-script-line">Quel est votre secteur d'activité ?</span>
+            </div>
+            <div class="q-input-wrap">
+              <div class="tags-grid" id="secteur-tags-creee"></div>
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num alt">A6</div>
+              <div class="q-label">Êtes-vous le représentant légal ?
+                <span class="q-hint">Si Non : un mandat à signer sera ajouté à la liste des actions.</span>
+              </div>
+            </div>
+            <div class="q-input-wrap">
+              <div class="tags">
+                <div class="tag"><input type="radio" id="rl-oui" name="representant_legal" value="Oui" data-save data-deselect onchange="toggleMandat()"><label for="rl-oui" class="yes-style">Oui</label></div>
+                <div class="tag"><input type="radio" id="rl-non" name="representant_legal" value="Non (mandat à signer)" data-save data-deselect onchange="toggleMandat()"><label for="rl-non" class="no-style">Non → mandat à signer</label></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num alt">A7</div>
+              <div class="q-label">Nom du Président / Gérant</div>
+            </div>
+            <div class="q-script">
+              <span class="q-script-speaker">Commercial</span>
+              <span class="q-script-line">Comment s'appelle le président ou le gérant ?</span>
+            </div>
+            <div class="q-input-wrap">
+              <input type="text" id="nom_dirigeant" name="nom_dirigeant" data-save>
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num alt">A8</div>
+              <div class="q-label">Chiffre d'affaires annuel</div>
+            </div>
+            <div class="q-input-wrap">
+              <div class="tags">
+                <div class="tag"><input type="radio" id="ca-1" name="ca" value="0 - 200 000 €" data-save data-deselect><label for="ca-1">0 — 200 K€</label></div>
+                <div class="tag"><input type="radio" id="ca-2" name="ca" value="200 000 - 500 000 €" data-save data-deselect><label for="ca-2">200 K — 500 K€</label></div>
+                <div class="tag"><input type="radio" id="ca-3" name="ca" value="500 000 - 2 000 000 €" data-save data-deselect><label for="ca-3">500 K — 2 M€</label></div>
+                <div class="tag"><input type="radio" id="ca-4" name="ca" value="2 000 000 - 5 000 000 €" data-save data-deselect><label for="ca-4">2 — 5 M€</label></div>
+                <div class="tag"><input type="radio" id="ca-5" name="ca" value="5 000 000 € et plus" data-save data-deselect><label for="ca-5">5 M€ +</label></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ━━━━━━━━━━ BRANCHE B : société en projet ━━━━━━━━━━ -->
+        <div class="branch" id="branch-projet">
+          <div class="branch-title">Branche B · Société en cours de création</div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num warn">B1</div>
+              <div class="q-label">Secteur d'activité envisagé<span class="req">*</span>
+                <span class="q-hint">Détermine les questions sectorielles à l'étape 4.</span>
+              </div>
+            </div>
+            <div class="q-input-wrap">
+              <div class="tags-grid" id="secteur-tags-projet"></div>
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num warn">B2</div>
+              <div class="q-label">Type de société envisagée
+                <span class="q-hint">"Ne sait pas" → conseil à apporter.</span>
+              </div>
+            </div>
+            <div class="q-script">
+              <span class="q-script-speaker">Commercial</span>
+              <span class="q-script-line">Quelle forme juridique envisagez-vous ?</span>
+            </div>
+            <div class="q-input-wrap">
+              <div class="tags">
+                <div class="tag"><input type="radio" id="fjp-sas" name="forme_juridique_prev" value="SAS" data-save data-deselect onchange="toggleSCIPrev()"><label for="fjp-sas">SAS</label></div>
+                <div class="tag"><input type="radio" id="fjp-sasu" name="forme_juridique_prev" value="SASU" data-save data-deselect onchange="toggleSCIPrev()"><label for="fjp-sasu">SASU</label></div>
+                <div class="tag"><input type="radio" id="fjp-sarl" name="forme_juridique_prev" value="SARL" data-save data-deselect onchange="toggleSCIPrev()"><label for="fjp-sarl">SARL</label></div>
+                <div class="tag"><input type="radio" id="fjp-sci" name="forme_juridique_prev" value="SCI" data-save data-deselect onchange="toggleSCIPrev()"><label for="fjp-sci">SCI</label></div>
+                <div class="tag"><input type="radio" id="fjp-lmnp" name="forme_juridique_prev" value="LMNP" data-save data-deselect onchange="toggleSCIPrev()"><label for="fjp-lmnp">LMNP</label></div>
+                <div class="tag"><input type="radio" id="fjp-nsp" name="forme_juridique_prev" value="Ne sait pas (conseil à apporter)" data-save data-deselect onchange="toggleSCIPrev()"><label for="fjp-nsp" class="warn-style">? Ne sait pas</label></div>
+              </div>
+              <div class="sub-branch" id="sub-sci-prev">
+                <div class="sub-branch-title">Si SCI · Régime fiscal envisagé</div>
+                <div class="tags">
+                  <div class="tag"><input type="radio" id="scip-is" name="sci_regime_prev" value="IS (impôt sur les sociétés)" data-save data-deselect><label for="scip-is">IS — Impôt sur les sociétés</label></div>
+                  <div class="tag"><input type="radio" id="scip-ir" name="sci_regime_prev" value="IR (impôt sur le revenu)" data-save data-deselect><label for="scip-ir">IR — Impôt sur le revenu</label></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num warn">B3</div>
+              <div class="q-label">Date de création envisagée</div>
+            </div>
+            <div class="q-input-wrap">
+              <input type="text" id="date_creation_prev" name="date_creation_prev" data-save placeholder="Ex : septembre 2026, dans 2 mois…">
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num warn">B4</div>
+              <div class="q-label">Serez-vous le représentant légal ?
+                <span class="q-hint">Si Non : un mandat à signer sera ajouté à la liste des actions.</span>
+              </div>
+            </div>
+            <div class="q-input-wrap">
+              <div class="tags">
+                <div class="tag"><input type="radio" id="rlp-oui" name="representant_legal_prev" value="Oui" data-save data-deselect onchange="toggleMandat()"><label for="rlp-oui" class="yes-style">Oui</label></div>
+                <div class="tag"><input type="radio" id="rlp-non" name="representant_legal_prev" value="Non (mandat à signer)" data-save data-deselect onchange="toggleMandat()"><label for="rlp-non" class="no-style">Non → mandat à signer</label></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num warn">B5</div>
+              <div class="q-label">Nom du futur Président / Gérant</div>
+            </div>
+            <div class="q-input-wrap">
+              <input type="text" id="nom_dirigeant_prev" name="nom_dirigeant_prev" data-save>
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num warn">B6</div>
+              <div class="q-label">Parlez-moi de votre business plan / future activité</div>
+            </div>
+            <div class="q-script">
+              <span class="q-script-speaker">Commercial</span>
+              <span class="q-script-line">Pouvez-vous me parler de votre business plan ou de votre future activité ?</span>
+            </div>
+            <div class="q-input-wrap">
+              <textarea id="business_plan" name="business_plan" data-save rows="4" placeholder="Activité, cibles, ambitions, prévisionnel…"></textarea>
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num warn">B7</div>
+              <div class="q-label">Y aura-t-il des associés ?</div>
+            </div>
+            <div class="q-input-wrap">
+              <div class="tags">
+                <div class="tag"><input type="radio" id="ass-oui" name="associes_prev" value="Oui" data-save data-deselect onchange="toggleAssocies()"><label for="ass-oui" class="yes-style">Oui</label></div>
+                <div class="tag"><input type="radio" id="ass-non" name="associes_prev" value="Non" data-save data-deselect onchange="toggleAssocies()"><label for="ass-non" class="no-style">Non</label></div>
+              </div>
+              <div class="sub-field" id="nb-associes-prev-wrap" style="display:none;margin-top:10px">
+                <label>Combien d'associés ?</label>
+                <input type="number" id="nb_associes_prev" name="nb_associes_prev" min="1" data-save style="max-width:120px">
+              </div>
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head">
+              <div class="q-num warn">B8</div>
+              <div class="q-label">Capital de départ</div>
+            </div>
+            <div class="q-input-wrap">
+              <input type="text" id="capital" name="capital" data-save placeholder="Ex : 5 000 €" style="max-width:200px">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════ STEP 2 : ACTIVITÉ ════════════════ -->
+    <div class="card step-card" data-step="2" style="display:none">
+      <h2 class="card-title">Activité & charges</h2>
+      <p class="card-sub">Indicateurs de charge de travail comptable.</p>
+
+      <div class="q-block">
+        <div class="q-head"><div class="q-num">7</div>
+          <div class="q-label">Volume de factures mensuelles
+            <span class="q-hint">Indicateur clé : restaurant ≫ informaticien indépendant.</span>
+          </div>
+        </div>
+        <div class="q-input-wrap">
+          <input type="text" id="volume_factures" name="volume_factures" data-save placeholder="Ex : 30-50 / mois">
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-head"><div class="q-num">8</div><div class="q-label">Nombre de banques</div></div>
+        <div class="q-input-wrap">
+          <input type="number" id="nb_banques" name="nb_banques" min="0" max="20" data-save style="max-width:120px">
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-head"><div class="q-num">9</div><div class="q-label">Périodicité TVA</div></div>
+        <div class="q-input-wrap">
+          <div class="tags">
+            <div class="tag"><input type="radio" id="tva-m" name="tva" value="Mensuelle" data-save data-deselect><label for="tva-m">Mensuelle</label></div>
+            <div class="tag"><input type="radio" id="tva-t" name="tva" value="Trimestrielle" data-save data-deselect><label for="tva-t">Trimestrielle</label></div>
+            <div class="tag"><input type="radio" id="tva-a" name="tva" value="Annuelle" data-save data-deselect><label for="tva-a">Annuelle</label></div>
+            <div class="tag"><input type="radio" id="tva-f" name="tva" value="Franchise / non assujetti" data-save data-deselect><label for="tva-f">Franchise</label></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-head"><div class="q-num">10</div>
+          <div class="q-label">Salariés <span id="salaries-context"></span> ?</div>
+        </div>
+        <div class="q-input-wrap">
+          <div class="tags">
+            <div class="tag"><input type="radio" id="sal-oui" name="salaries" value="Oui" data-save data-deselect onchange="toggleSalaries()"><label for="sal-oui" class="yes-style">Oui</label></div>
+            <div class="tag"><input type="radio" id="sal-non" name="salaries" value="Non" data-save data-deselect onchange="toggleSalaries()"><label for="sal-non" class="no-style">Non</label></div>
+          </div>
+          <div class="sub-field" id="nb-salaries-wrap" style="display:none;margin-top:10px">
+            <label>Combien ?</label>
+            <input type="number" id="nb_salaries" name="nb_salaries" min="0" data-save style="max-width:120px">
+          </div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-head"><div class="q-num">11</div>
+          <div class="q-label">Le dirigeant est-il (ou sera-t-il) salarié ?</div>
+        </div>
+        <div class="q-input-wrap">
+          <div class="tags">
+            <div class="tag"><input type="radio" id="dirs-oui" name="dirigeant_salarie" value="Oui" data-save data-deselect><label for="dirs-oui" class="yes-style">Oui</label></div>
+            <div class="tag"><input type="radio" id="dirs-non" name="dirigeant_salarie" value="Non (TNS)" data-save data-deselect><label for="dirs-non" class="no-style">Non (TNS)</label></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-head"><div class="q-num">12</div>
+          <div class="q-label">Quel(s) accompagnement(s) souhaitez-vous ?<span class="req">*</span>
+            <span class="q-hint">Plusieurs choix possibles.</span>
+          </div>
+        </div>
+        <div class="q-script">
+          <span class="q-script-speaker">Commercial</span>
+          <span class="q-script-line">Pour quelles missions souhaiteriez-vous qu'on vous accompagne ?</span>
+        </div>
+        <div class="q-input-wrap">
+          <div class="tags-grid" id="missions-tags"></div>
+          <div class="sub-field" id="mission-autre-wrap" style="display:none;margin-top:12px">
+            <label>Précisez la mission "Autre"</label>
+            <input type="text" id="mission_autre" name="mission_autre" data-save placeholder="Mission spécifique…">
+          </div>
+          <div class="sub-field" style="margin-top:12px">
+            <label>Précisions complémentaires sur les missions</label>
+            <textarea id="missions_precisions" name="missions_precisions" data-save rows="2" placeholder="Détails, urgences, périmètre exact…"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════ STEP 3 : QUESTIONS SECTORIELLES ════════════════ -->
+    <div class="card step-card" data-step="3" style="display:none">
+      <h2 class="card-title">Questions sectorielles</h2>
+      <p class="card-sub" id="sector-subtitle">Questions complémentaires selon le secteur d'activité sélectionné à l'étape 2.</p>
+
+      <!-- Empty state -->
+      <div class="q-block" id="no-sector-message">
+        <div class="q-input-wrap">
+          <div style="padding:30px;text-align:center;background:var(--script-bg);border-radius:var(--radius);color:var(--text-muted);font-style:italic">
+            ℹ Aucune question sectorielle pour ce secteur d'activité — passez à l'étape suivante.<br>
+            <small style="display:block;margin-top:8px">Sélectionnez un secteur à l'étape "Société" pour voir les questions spécifiques.</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- ━━━━━━━━━━ E-COMMERCE ━━━━━━━━━━ -->
+      <div id="sector-ecommerce" style="display:none">
+        <div class="q-block">
+          <div class="q-head"><div class="q-num">13</div>
+            <div class="q-label">Canaux et marketplaces utilisées</div>
+          </div>
+          <div class="q-input-wrap">
+            <div class="tags-grid" id="marketplaces-tags"></div>
+            <div class="sub-field" style="margin-top:10px">
+              <label>Autres marketplaces</label>
+              <input type="text" id="marketplaces_autre" name="marketplaces_autre" data-save>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-block">
+          <div class="q-head"><div class="q-num">14</div>
+            <div class="q-label">Si Amazon, mode d'expédition ?</div>
+          </div>
+          <div class="q-input-wrap">
+            <div class="tags">
+              <div class="tag"><input type="checkbox" id="amz-fba" name="amazon_mode" value="FBA" data-save><label for="amz-fba">FBA</label></div>
+              <div class="tag"><input type="checkbox" id="amz-paneuro" name="amazon_mode" value="Paneuropéen" data-save><label for="amz-paneuro">Paneuropéen</label></div>
+              <div class="tag"><input type="checkbox" id="amz-distance" name="amazon_mode" value="Expédition à distance" data-save><label for="amz-distance">Expédition à distance</label></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-block">
+          <div class="q-head"><div class="q-num">15</div>
+            <div class="q-label">Zone de vente</div>
+          </div>
+          <div class="q-input-wrap">
+            <div class="tags">
+              <div class="tag"><input type="radio" id="zone-fr" name="zone_vente" value="France uniquement" data-save data-deselect><label for="zone-fr">France uniquement</label></div>
+              <div class="tag"><input type="radio" id="zone-eu" name="zone_vente" value="Europe" data-save data-deselect><label for="zone-eu">Europe</label></div>
+              <div class="tag"><input type="radio" id="zone-int" name="zone_vente" value="International" data-save data-deselect><label for="zone-int">International</label></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-block">
+          <div class="q-head"><div class="q-num">16</div>
+            <div class="q-label">OSS / IOSS à préparer ?</div>
+          </div>
+          <div class="q-input-wrap">
+            <div class="tags">
+              <div class="tag"><input type="radio" id="oss-oui" name="oss_ioss" value="Oui" data-save data-deselect><label for="oss-oui" class="yes-style">Oui</label></div>
+              <div class="tag"><input type="radio" id="oss-non" name="oss_ioss" value="Non" data-save data-deselect><label for="oss-non" class="no-style">Non</label></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-block">
+          <div class="q-head"><div class="q-num">17</div>
+            <div class="q-label">Ventes multi-devises ?</div>
+          </div>
+          <div class="q-input-wrap">
+            <div class="tags">
+              <div class="tag"><input type="radio" id="md-oui" name="multi_devises" value="Oui" data-save data-deselect><label for="md-oui" class="yes-style">Oui</label></div>
+              <div class="tag"><input type="radio" id="md-non" name="multi_devises" value="Non" data-save data-deselect><label for="md-non" class="no-style">Non</label></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-block">
+          <div class="q-head"><div class="q-num">18</div>
+            <div class="q-label">Produits importés hors UE ?</div>
+          </div>
+          <div class="q-input-wrap">
+            <div class="tags">
+              <div class="tag"><input type="radio" id="imp-oui" name="import_hors_ue" value="Oui" data-save data-deselect><label for="imp-oui" class="yes-style">Oui</label></div>
+              <div class="tag"><input type="radio" id="imp-non" name="import_hors_ue" value="Non" data-save data-deselect><label for="imp-non" class="no-style">Non</label></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-block">
+          <div class="q-head"><div class="q-num">19</div>
+            <div class="q-label">Déclarations de douane à préparer ?</div>
+          </div>
+          <div class="q-input-wrap">
+            <div class="tags">
+              <div class="tag"><input type="radio" id="dou-oui" name="douane" value="Oui" data-save data-deselect><label for="dou-oui" class="yes-style">Oui</label></div>
+              <div class="tag"><input type="radio" id="dou-non" name="douane" value="Non" data-save data-deselect><label for="dou-non" class="no-style">Non</label></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-block">
+          <div class="q-head"><div class="q-num">20</div>
+            <div class="q-label">Rapprochement bancaire / frais Amazon à faire ?</div>
+          </div>
+          <div class="q-input-wrap">
+            <div class="tags">
+              <div class="tag"><input type="radio" id="rap-oui" name="rapprochement" value="Oui" data-save data-deselect><label for="rap-oui" class="yes-style">Oui</label></div>
+              <div class="tag"><input type="radio" id="rap-non" name="rapprochement" value="Non" data-save data-deselect><label for="rap-non" class="no-style">Non</label></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ━━━━━━━━━━ EI / COMMERCANT / ARTISAN / TRANSPORT ━━━━━━━━━━ -->
+      <div id="sector-ei" style="display:none">
+        <div class="q-block">
+          <div class="q-head"><div class="q-num">13</div>
+            <div class="q-label">Suivi cotisations sociales TNS / bilan annuel retraite et prévoyance ?</div>
+          </div>
+          <div class="q-input-wrap">
+            <div class="tags">
+              <div class="tag"><input type="radio" id="tns-oui" name="suivi_tns" value="Oui" data-save data-deselect><label for="tns-oui" class="yes-style">Oui, à faire</label></div>
+              <div class="tag"><input type="radio" id="tns-non" name="suivi_tns" value="Non" data-save data-deselect><label for="tns-non" class="no-style">Non</label></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-block">
+          <div class="q-head"><div class="q-num">14</div>
+            <div class="q-label">Régime fiscal</div>
+          </div>
+          <div class="q-input-wrap">
+            <div class="tags">
+              <div class="tag"><input type="radio" id="rg-bic-rs" name="regime_ei" value="BIC Réel Simplifié" data-save data-deselect><label for="rg-bic-rs">BIC Réel simplifié</label></div>
+              <div class="tag"><input type="radio" id="rg-bic-rn" name="regime_ei" value="BIC Réel Normal" data-save data-deselect><label for="rg-bic-rn">BIC Réel normal</label></div>
+              <div class="tag"><input type="radio" id="rg-bnc-rs" name="regime_ei" value="BNC Réel Simplifié" data-save data-deselect><label for="rg-bnc-rs">BNC Réel simplifié</label></div>
+              <div class="tag"><input type="radio" id="rg-bnc-rn" name="regime_ei" value="BNC Réel Normal" data-save data-deselect><label for="rg-bnc-rn">BNC Réel normal</label></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ━━━━━━━━━━ MÉDECIN / SANTÉ ━━━━━━━━━━ -->
+      <div id="sector-sante" style="display:none">
+        <div class="q-block">
+          <div class="q-head"><div class="q-num">13</div>
+            <div class="q-label">Profil médecin</div>
+          </div>
+          <div class="q-input-wrap">
+            <div class="tags">
+              <div class="tag"><input type="radio" id="md-rempl" name="profil_med" value="Médecin remplaçant" data-save data-deselect><label for="md-rempl">Remplaçant</label></div>
+              <div class="tag"><input type="radio" id="md-gen" name="profil_med" value="Généraliste" data-save data-deselect><label for="md-gen">Généraliste</label></div>
+              <div class="tag"><input type="radio" id="md-spe" name="profil_med" value="Spécialiste" data-save data-deselect><label for="md-spe">Spécialiste</label></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-block">
+          <div class="q-head"><div class="q-num">14</div>
+            <div class="q-label">Régime fiscal</div>
+          </div>
+          <div class="q-input-wrap">
+            <div class="tags">
+              <div class="tag"><input type="radio" id="rgm-mbnc" name="regime_med" value="Micro BNC" data-save data-deselect><label for="rgm-mbnc">Micro BNC</label></div>
+              <div class="tag"><input type="radio" id="rgm-rbnc" name="regime_med" value="Réel BNC" data-save data-deselect><label for="rgm-rbnc">Réel BNC</label></div>
+              <div class="tag"><input type="radio" id="rgm-sel" name="regime_med" value="Réel BNC + SEL mono associé" data-save data-deselect><label for="rgm-sel">Réel BNC + SEL mono associé</label></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════ STEP 4 : SITUATION COMPTABLE ════════════════ -->
+    <div class="card step-card" data-step="4" style="display:none">
+      <h2 class="card-title">Situation comptable actuelle</h2>
+      <p class="card-sub">Comprendre le contexte pour positionner la reprise.</p>
+
+      <div class="q-block">
+        <div class="q-head"><div class="q-num">21</div>
+          <div class="q-label">A-t-il un expert-comptable actuellement ?<span class="req">*</span></div>
+        </div>
+        <div class="q-script">
+          <span class="q-script-speaker">Commercial</span>
+          <span class="q-script-line">Vous avez déjà un expert-comptable, ou on part de zéro ?</span>
+        </div>
+        <div class="q-input-wrap">
+          <div class="tags">
+            <div class="tag"><input type="radio" id="ec-oui" name="expert_actuel" value="Oui" data-save data-deselect onchange="toggleEC()"><label for="ec-oui" class="yes-style">Oui</label></div>
+            <div class="tag"><input type="radio" id="ec-non" name="expert_actuel" value="Non" data-save data-deselect onchange="toggleEC()"><label for="ec-non" class="no-style">Non</label></div>
+          </div>
+        </div>
+
+        <div class="branch" id="branch-ec">
+          <div class="branch-title">Si le prospect a déjà un expert-comptable</div>
+
+          <div class="q-block">
+            <div class="q-head"><div class="q-num alt">21a</div>
+              <div class="q-label">Raison du changement</div>
+            </div>
+            <div class="q-script">
+              <span class="q-script-speaker">Commercial</span>
+              <span class="q-script-line">Pour quelle raison souhaitez-vous changer de comptable ?</span>
+            </div>
+            <div class="q-input-wrap">
+              <textarea id="raison_changement" name="raison_changement" data-save rows="2"></textarea>
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head"><div class="q-num alt">21b</div>
+              <div class="q-label">Cabinet actuel informé de la résiliation ?</div>
+            </div>
+            <div class="q-input-wrap">
+              <div class="tags">
+                <div class="tag"><input type="radio" id="resil-oui" name="resiliation_informee" value="Oui" data-save data-deselect><label for="resil-oui" class="yes-style">Oui</label></div>
+                <div class="tag"><input type="radio" id="resil-non" name="resiliation_informee" value="Non" data-save data-deselect><label for="resil-non" class="no-style">Non</label></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head"><div class="q-num alt">21c</div>
+              <div class="q-label">Date de clôture de l'exercice</div>
+            </div>
+            <div class="q-input-wrap">
+              <input type="text" id="date_cloture" name="date_cloture" data-save placeholder="Ex : 31/12, 30/06…" style="max-width:240px">
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head"><div class="q-num alt">21d</div>
+              <div class="q-label">Le dernier bilan est-il finalisé ?</div>
+            </div>
+            <div class="q-input-wrap">
+              <div class="tags">
+                <div class="tag"><input type="radio" id="bilan-oui" name="bilan_finalise" value="Oui" data-save data-deselect onchange="toggleBilan()"><label for="bilan-oui" class="yes-style">Oui</label></div>
+                <div class="tag"><input type="radio" id="bilan-non" name="bilan_finalise" value="Non" data-save data-deselect onchange="toggleBilan()"><label for="bilan-non" class="no-style">Non</label></div>
+                <div class="tag"><input type="radio" id="bilan-nsp" name="bilan_finalise" value="Ne sait pas" data-save data-deselect onchange="toggleBilan()"><label for="bilan-nsp">Ne sait pas</label></div>
+              </div>
+              <div class="sub-branch" id="sub-bilan-non">
+                <div class="sub-branch-title">Bilan non finalisé · suivi</div>
+                <div style="font-size:13px;color:var(--text-soft);margin-bottom:8px">Sera-t-il réalisé avant le changement de cabinet ?</div>
+                <div class="tags">
+                  <div class="tag"><input type="radio" id="bilan-avant-oui" name="bilan_avant_changement" value="Oui" data-save data-deselect><label for="bilan-avant-oui" class="yes-style">Oui</label></div>
+                  <div class="tag"><input type="radio" id="bilan-avant-non" name="bilan_avant_changement" value="Non" data-save data-deselect><label for="bilan-avant-non" class="no-style">Non</label></div>
+                  <div class="tag"><input type="radio" id="bilan-avant-nsp" name="bilan_avant_changement" value="Ne sait pas" data-save data-deselect><label for="bilan-avant-nsp">Ne sait pas</label></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="q-block">
+            <div class="q-head"><div class="q-num alt">21e</div>
+              <div class="q-label">Coordonnées du cabinet actuel</div>
+            </div>
+            <div class="q-script">
+              <span class="q-script-speaker">Commercial</span>
+              <span class="q-script-line">Pouvez-vous nous communiquer les coordonnées de votre cabinet ? C'est une obligation de notre part de l'informer que nous reprenons le dossier.</span>
+            </div>
+            <div class="q-input-wrap">
+              <textarea id="cabinet_actuel" name="cabinet_actuel" data-save rows="3" placeholder="Nom du cabinet, contact, téléphone, email…"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-head"><div class="q-num">22</div>
+          <div class="q-label">Comment avez-vous connu le cabinet AUCTUS ?
+            <span class="q-hint">Plusieurs choix possibles.</span>
+          </div>
+        </div>
+        <div class="q-input-wrap">
+          <div class="tags-grid" id="canal-tags"></div>
+          <div class="sub-field" style="margin-top:10px">
+            <label>Précision</label>
+            <input type="text" id="canal_precision" name="canal_precision" data-save placeholder="Nom de la personne qui vous a recommandé, etc.">
+          </div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-head"><div class="q-num">23</div>
+          <div class="q-label">Avez-vous contacté d'autres cabinets ?
+            <span class="q-hint">Signal concurrentiel.</span>
+          </div>
+        </div>
+        <div class="q-script">
+          <span class="q-script-speaker">Commercial</span>
+          <span class="q-script-line">Vous comparez plusieurs cabinets, ou nous sommes les premiers que vous appelez ?</span>
+        </div>
+        <div class="q-input-wrap">
+          <div class="tags">
+            <div class="tag"><input type="radio" id="con-non" name="concurrents" value="Non" data-save data-deselect onchange="toggleConcur()"><label for="con-non" class="no-style">Non</label></div>
+            <div class="tag"><input type="radio" id="con-oui" name="concurrents" value="Oui" data-save data-deselect onchange="toggleConcur()"><label for="con-oui" class="yes-style">Oui</label></div>
+          </div>
+          <div class="sub-branch" id="sub-concurrents">
+            <div class="sub-branch-title">Si oui · état d'avancement</div>
+            <textarea id="concurrents_reflexion" name="concurrents_reflexion" data-save rows="2" placeholder="Où en est votre réflexion ? Quels cabinets ?"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════ STEP 5 : CLÔTURE ════════════════ -->
+    <div class="card step-card" data-step="5" style="display:none">
+      <h2 class="card-title">Clôture & prochaines étapes</h2>
+      <p class="card-sub">Récapitulatif + actions post-appel.</p>
+
+      <div class="q-block">
+        <div class="q-head"><div class="q-num">✓</div><div class="q-label">Récapitulatif de l'échange</div></div>
+        <div class="q-input-wrap">
+          <div class="recap" id="recap"></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-head"><div class="q-num">24</div>
+          <div class="q-label">Actions à déclencher après l'appel
+            <span class="q-hint">Automatiquement envoyées à Pipedrive via Make.</span>
+          </div>
+        </div>
+        <div class="q-input-wrap">
+          <div class="action-list">
+            <label class="action-item">
+              <input type="checkbox" name="actions" value="Mail + SMS demande documents" data-save>
+              <div class="action-item-content">
+                <div class="action-item-title">📧📱 Mail + SMS — demande de documents</div>
+                <div class="action-item-desc">KBIS, derniers comptes, identifiants impôts…</div>
+              </div>
+            </label>
+            <label class="action-item">
+              <input type="checkbox" name="actions" value="Mail + SMS proposition commerciale" data-save>
+              <div class="action-item-content">
+                <div class="action-item-title">📧📱 Mail + SMS — proposition commerciale</div>
+                <div class="action-item-desc">Devis chiffré + lettre de mission</div>
+              </div>
+            </label>
+            <label class="action-item">
+              <input type="checkbox" name="actions" value="Mail + SMS infos cabinet + plaquette" data-save>
+              <div class="action-item-content">
+                <div class="action-item-title">📧📱 Mail + SMS — infos cabinet</div>
+                <div class="action-item-desc">Plaquette de présentation AUCTUS</div>
+              </div>
+            </label>
+            <label class="action-item">
+              <input type="checkbox" name="actions" value="Rappel sous 24-48h" data-save>
+              <div class="action-item-content">
+                <div class="action-item-title">⏰ Rappel sous 24-48h</div>
+                <div class="action-item-desc">Activité automatique dans Pipedrive</div>
+              </div>
+            </label>
+            <label class="action-item">
+              <input type="checkbox" name="actions" value="Envoyer mandat à signer" data-save id="action-mandat">
+              <div class="action-item-content">
+                <div class="action-item-title">📝 Envoyer mandat à signer</div>
+                <div class="action-item-desc">Auto-coché si non-représentant légal</div>
+              </div>
+            </label>
+            <label class="action-item">
+              <input type="checkbox" name="actions" value="RDV physique à planifier" data-save>
+              <div class="action-item-content">
+                <div class="action-item-title">🤝 RDV physique à planifier</div>
+                <div class="action-item-desc">Pour les dossiers stratégiques</div>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-head"><div class="q-num">25</div>
+          <div class="q-label">Qualification finale<span class="req">*</span></div>
+        </div>
+        <div class="q-input-wrap">
+          <div class="tags">
+            <div class="tag"><input type="radio" id="v-qualif" name="verdict" value="Qualifié" data-save data-deselect><label for="v-qualif" class="yes-style">✓ Qualifié</label></div>
+            <div class="tag"><input type="radio" id="v-relancer" name="verdict" value="À relancer" data-save data-deselect><label for="v-relancer">↻ À relancer</label></div>
+            <div class="tag"><input type="radio" id="v-nq" name="verdict" value="Non qualifié" data-save data-deselect><label for="v-nq" class="no-style">✕ Non qualifié</label></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-head"><div class="q-num">26</div>
+          <div class="q-label">Commentaire / verbatim
+            <span class="q-hint">Notes prises pendant l'appel, ressenti, signaux faibles.</span>
+          </div>
+        </div>
+        <div class="q-input-wrap">
+          <textarea id="commentaire_final" name="commentaire_final" data-save rows="6" placeholder="Notez ici tout ce qui ressort de l'échange…"></textarea>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+  <!-- ━━━━━━━━━━ STICKY NAV ━━━━━━━━━━ -->
+  <div class="nav">
+    <div class="nav-inner">
+      <button type="button" class="btn btn-ghost" onclick="prevStep()" id="btn-prev">← Précédent</button>
+      <div class="nav-step-indicator">
+        Étape <strong id="step-current">1</strong> / <strong>6</strong>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button type="button" class="btn btn-primary" onclick="nextStep()" id="btn-next">Suivant →</button>
+        <button type="button" class="btn btn-accent" onclick="submitForm()" id="btn-submit" style="display:none">Envoyer vers Pipedrive ✓</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+//  CONFIGURATION
+// ══════════════════════════════════════════════
+const CONFIG = {
+  WEBHOOK_URL: 'https://hook.eu2.make.com/XXXX_REMPLACER_XXXX',
+  STORAGE_KEY: 'auctus_qualif_v2',
+  AUTOSAVE_DELAY: 800,
+  TOTAL_STEPS: 6
+};
+
+// Listes de référence
+const SECTEURS = [
+  { value: "Administrations et collectivités", group: null },
+  { value: "Agriculture", group: null },
+  { value: "Association", group: null },
+  { value: "Banque / Finance / Assurance", group: null },
+  { value: "Bijouterie / Joaillerie", group: null },
+  { value: "Boulangerie / Pâtisserie", group: null },
+  { value: "Café / Hôtel / Restaurant / Tourisme", group: null },
+  { value: "Coiffure / Parfumerie / Esthétique", group: null },
+  { value: "Commerce de gros", group: null },
+  { value: "Construction / BTP / Promoteur immobilier", group: null },
+  { value: "Décoration / Architecture", group: null },
+  { value: "Éducation", group: null },
+  { value: "E-commerce", group: "ecommerce" },
+  { value: "Entreprise individuelle / Commerçant / Artisan / Transport", group: "ei" },
+  { value: "Équipement de personnes", group: null },
+  { value: "Fleurs / Jardinerie", group: null },
+  { value: "Garage / Carrosserie / Auto-cycle", group: null },
+  { value: "Horlogerie / Lunetterie / Optique", group: null },
+  { value: "Industrie", group: null },
+  { value: "Informatique / Telecom / Internet", group: null },
+  { value: "Loisirs / Sports / Jouets", group: null },
+  { value: "Médecin / Santé / Hôpitaux / Cliniques", group: "sante" },
+  { value: "Prestation de service", group: null },
+  { value: "Professions libérales", group: null },
+  { value: "Services aux entreprises / Conseil", group: null },
+  { value: "Services aux particuliers", group: null },
+  { value: "Autres", group: null }
+];
+
+const MISSIONS = [
+  "Tenue complète de la comptabilité",
+  "Établissement des comptes annuels / liasses fiscales",
+  "Élaboration d'un prévisionnel / Business plan",
+  "Gestion de la paie",
+  "Conseil (fiscal, juridique, social)",
+  "Révision de la comptabilité",
+  "Aide à la création",
+  "Rédaction du procès-verbal et dépôt des comptes au greffe",
+  "Rattrapage de comptabilité",
+  "Établissement de la 2042 IR et imposition non-résidents",
+  "Accompagnement dépôt de bilan",
+  "Dissolution-liquidation amiable",
+  "PV dissolution + formalités JAL et Greffe",
+  "PV dissolution + formalités hors JAL et Greffe",
+  "Bilan de liquidation",
+  "Déclaration 2042 impôt sur le revenu",
+  "Autre"
+];
+
+const MARKETPLACES = ["Shopify", "Amazon Seller", "Ebay", "Vinted", "Ankorstore", "Faire"];
+
+const CANAUX = [
+  "Site internet AUCTUS",
+  "Google / SEO",
+  "Recommandation",
+  "LinkedIn",
+  "Réseaux sociaux",
+  "Bouche-à-oreille",
+  "Salon / Événement",
+  "Publicité",
+  "Autre"
+];
+
+// ══════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════
+let currentStep = 0;
+let dealId = null;
+let autosaveTimer = null;
+let timerInterval = null;
+let timerSeconds = 0;
+let timerRunning = true;
+let createdAt = new Date();
+
+// ══════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  // Header date
+  document.getElementById('created-at').textContent =
+    createdAt.toLocaleDateString('fr-FR', { day:'2-digit', month:'short', year:'numeric' }) +
+    ' à ' + createdAt.toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit' });
+
+  // Build dynamic tag lists
+  buildSecteurTags('secteur-tags-creee', 'secteur', false);
+  buildSecteurTags('secteur-tags-projet', 'secteur', false);
+  buildMissionsTags();
+  buildMarketplacesTags();
+  buildCanauxTags();
+
+  // Load from storage
+  loadDraft();
+  readURLParams();
+
+  // Auto-save listeners
+  document.querySelectorAll('[data-save]').forEach(el => {
+    el.addEventListener('input', scheduleAutosave);
+    el.addEventListener('change', scheduleAutosave);
+  });
+
+  // Deselect-on-reclick for radios
+  document.querySelectorAll('input[type="radio"][data-deselect]').forEach(r => {
+    r.addEventListener('mousedown', function() {
+      this._wasChecked = this.checked;
+    });
+    r.addEventListener('click', function(e) {
+      if (this._wasChecked) {
+        this.checked = false;
+        this._wasChecked = false;
+        // Re-trigger any onchange logic
+        this.dispatchEvent(new Event('change', { bubbles: true }));
+        scheduleAutosave();
+      }
+    });
+  });
+
+  // Sector change → update sectoral step
+  document.querySelectorAll('input[name="secteur"]').forEach(r =>
+    r.addEventListener('change', updateSectorStep)
+  );
+
+  // Missions "Autre" → toggle text input
+  document.querySelectorAll('input[name="missions"]').forEach(r =>
+    r.addEventListener('change', toggleMissionAutre)
+  );
+
+  // Update salaries label depending on société state
+  document.querySelectorAll('input[name="etat_societe"]').forEach(r =>
+    r.addEventListener('change', updateSalariesContext)
+  );
+
+  // Start timer
+  startTimer();
+
+  updateStepUI();
+});
+
+// ══════════════════════════════════════════════
+//  BUILDERS — Tags dynamiques
+// ══════════════════════════════════════════════
+function buildSecteurTags(containerId, name, multi) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.innerHTML = SECTEURS.map((s, i) => {
+    const id = containerId + '-' + i;
+    const type = multi ? 'checkbox' : 'radio';
+    return `<div class="tag">
+      <input type="${type}" id="${id}" name="${name}" value="${s.value}" data-save ${type === 'radio' ? 'data-deselect' : ''} data-group="${s.group || ''}">
+      <label for="${id}">${s.value}</label>
+    </div>`;
+  }).join('');
+}
+
+function buildMissionsTags() {
+  const c = document.getElementById('missions-tags');
+  c.innerHTML = MISSIONS.map((m, i) => {
+    const id = 'mission-' + i;
+    return `<div class="tag">
+      <input type="checkbox" id="${id}" name="missions" value="${m}" data-save>
+      <label for="${id}">${m}</label>
+    </div>`;
+  }).join('');
+}
+
+function buildMarketplacesTags() {
+  const c = document.getElementById('marketplaces-tags');
+  if (!c) return;
+  c.innerHTML = MARKETPLACES.map((m, i) => {
+    const id = 'mp-' + i;
+    return `<div class="tag">
+      <input type="checkbox" id="${id}" name="marketplaces" value="${m}" data-save>
+      <label for="${id}">${m}</label>
+    </div>`;
+  }).join('');
+}
+
+function buildCanauxTags() {
+  const c = document.getElementById('canal-tags');
+  c.innerHTML = CANAUX.map((m, i) => {
+    const id = 'canal-' + i;
+    return `<div class="tag">
+      <input type="checkbox" id="${id}" name="canaux" value="${m}" data-save>
+      <label for="${id}">${m}</label>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════
+//  TIMER
+// ══════════════════════════════════════════════
+function startTimer() {
+  timerInterval = setInterval(() => {
+    if (timerRunning) {
+      timerSeconds++;
+      updateTimerDisplay();
+    }
+  }, 1000);
+}
+function updateTimerDisplay() {
+  const m = Math.floor(timerSeconds / 60).toString().padStart(2, '0');
+  const s = (timerSeconds % 60).toString().padStart(2, '0');
+  document.getElementById('timer-value').textContent = m + ':' + s;
+}
+function toggleTimer() {
+  timerRunning = !timerRunning;
+  document.getElementById('timer-toggle').textContent = timerRunning ? '⏸' : '▶';
+}
+function resetTimer() {
+  if (!confirm('Réinitialiser le minuteur ?')) return;
+  timerSeconds = 0;
+  updateTimerDisplay();
+}
+
+// ══════════════════════════════════════════════
+//  URL PARAMS / PREFILL
+// ══════════════════════════════════════════════
+function readURLParams() {
+  const params = new URLSearchParams(window.location.search);
+  dealId = params.get('deal_id');
+
+  const map = {
+    prenom: 'prenom',
+    nom: 'nom',
+    email: 'email',
+    email2: 'email2',
+    tel: 'telephone',
+    telephone: 'telephone',
+    code_postal: 'code_postal',
+    cp: 'code_postal',
+    entreprise: 'denomination'
+  };
+
+  let prefilled = false;
+  for (const [urlKey, fieldId] of Object.entries(map)) {
+    const val = params.get(urlKey);
+    if (val) {
+      const el = document.getElementById(fieldId);
+      if (el) { el.value = decodeURIComponent(val); el.classList.add('prefilled'); prefilled = true; }
+    }
+  }
+
+  // Message du formulaire de contact
+  const message = params.get('message');
+  const entreprise = params.get('entreprise');
+  const sourcePage = params.get('source_page');
+  const dateContact = params.get('date_contact');
+  if (message || entreprise) {
+    document.getElementById('contact-summary-block').style.display = 'block';
+    if (message) document.getElementById('contact-summary-message').textContent = decodeURIComponent(message);
+    const meta = [];
+    if (entreprise) meta.push('<span>🏢 <strong>' + decodeURIComponent(entreprise) + '</strong></span>');
+    if (sourcePage) meta.push('<span>🔗 ' + decodeURIComponent(sourcePage) + '</span>');
+    if (dateContact) meta.push('<span>📅 ' + decodeURIComponent(dateContact) + '</span>');
+    document.getElementById('contact-summary-meta').innerHTML = meta.join('');
+  }
+
+  if (dealId) fetchPrefillFromMake(dealId);
+  else if (prefilled) showBanner('info', '✓ Données pré-remplies depuis l\'URL.');
+}
+
+async function fetchPrefillFromMake(deal_id) {
+  showBanner('info', '⏳ Chargement des données Pipedrive…');
+  try {
+    const res = await fetch(CONFIG.WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'prefill', deal_id })
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    const mapping = {
+      prenom: data.prenom || data.first_name,
+      nom: data.nom || data.last_name,
+      email: data.email,
+      email2: data.email2,
+      telephone: data.telephone || data.phone,
+      code_postal: data.code_postal,
+      denomination: data.entreprise || data.organization
+    };
+    for (const [k, v] of Object.entries(mapping)) {
+      if (v) {
+        const el = document.getElementById(k);
+        if (el) { el.value = v; el.classList.add('prefilled'); }
+      }
+    }
+    if (data.message) {
+      document.getElementById('contact-summary-block').style.display = 'block';
+      document.getElementById('contact-summary-message').textContent = data.message;
+    }
+    showBanner('success', '✓ Données Pipedrive chargées (deal #' + deal_id + ')');
+  } catch (e) {
+    showBanner('info', 'ℹ Formulaire ouvert sans données Pipedrive — remplissez manuellement.');
+  }
+}
+
+// ══════════════════════════════════════════════
+//  STEP NAVIGATION
+// ══════════════════════════════════════════════
+function goStep(n) {
+  if (n < 0 || n >= CONFIG.TOTAL_STEPS) return;
+  currentStep = n;
+  updateStepUI();
+}
+function nextStep() { if (currentStep < CONFIG.TOTAL_STEPS - 1) goStep(currentStep + 1); }
+function prevStep() { if (currentStep > 0) goStep(currentStep - 1); }
+
+function updateStepUI() {
+  document.querySelectorAll('.step-card').forEach(c => {
+    c.style.display = parseInt(c.dataset.step) === currentStep ? 'block' : 'none';
+  });
+  document.querySelectorAll('.step').forEach(s => {
+    const i = parseInt(s.dataset.step);
+    s.classList.toggle('active', i === currentStep);
+    s.classList.toggle('done', i < currentStep);
+  });
+  document.getElementById('btn-prev').disabled = currentStep === 0;
+  document.getElementById('btn-next').style.display = currentStep < CONFIG.TOTAL_STEPS - 1 ? 'inline-block' : 'none';
+  document.getElementById('btn-submit').style.display = currentStep === CONFIG.TOTAL_STEPS - 1 ? 'inline-block' : 'none';
+
+  document.getElementById('step-current').textContent = currentStep + 1;
+
+  if (currentStep === 3) updateSectorStep();
+  if (currentStep === CONFIG.TOTAL_STEPS - 1) buildRecap();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ══════════════════════════════════════════════
+//  BRANCHING LOGIC
+// ══════════════════════════════════════════════
+function toggleBranch() {
+  const val = document.querySelector('input[name="etat_societe"]:checked')?.value;
+  document.getElementById('branch-creee').classList.toggle('visible', val === 'creee');
+  document.getElementById('branch-projet').classList.toggle('visible', val === 'projet');
+  updateSalariesContext();
+}
+
+function toggleSCI() {
+  const val = document.querySelector('input[name="forme_juridique"]:checked')?.value;
+  document.getElementById('sub-sci').classList.toggle('visible', val === 'SCI');
+}
+function toggleSCIPrev() {
+  const val = document.querySelector('input[name="forme_juridique_prev"]:checked')?.value;
+  document.getElementById('sub-sci-prev').classList.toggle('visible', val === 'SCI');
+}
+
+function toggleSalaries() {
+  const val = document.querySelector('input[name="salaries"]:checked')?.value;
+  document.getElementById('nb-salaries-wrap').style.display = val === 'Oui' ? 'block' : 'none';
+}
+
+function toggleAssocies() {
+  const val = document.querySelector('input[name="associes_prev"]:checked')?.value;
+  document.getElementById('nb-associes-prev-wrap').style.display = val === 'Oui' ? 'block' : 'none';
+}
+
+function toggleEC() {
+  const val = document.querySelector('input[name="expert_actuel"]:checked')?.value;
+  document.getElementById('branch-ec').classList.toggle('visible', val === 'Oui');
+}
+
+function toggleBilan() {
+  const val = document.querySelector('input[name="bilan_finalise"]:checked')?.value;
+  document.getElementById('sub-bilan-non').classList.toggle('visible', val === 'Non');
+}
+
+function toggleConcur() {
+  const val = document.querySelector('input[name="concurrents"]:checked')?.value;
+  document.getElementById('sub-concurrents').classList.toggle('visible', val === 'Oui');
+}
+
+function toggleMandat() {
+  // Auto-coche l'action "Envoyer mandat" si non-représentant
+  const v1 = document.querySelector('input[name="representant_legal"]:checked')?.value;
+  const v2 = document.querySelector('input[name="representant_legal_prev"]:checked')?.value;
+  const isNonRep = (v1 && v1.includes('Non')) || (v2 && v2.includes('Non'));
+  const cb = document.getElementById('action-mandat');
+  if (cb && isNonRep) cb.checked = true;
+}
+
+function toggleMissionAutre() {
+  const cb = document.querySelector('input[name="missions"][value="Autre"]');
+  document.getElementById('mission-autre-wrap').style.display = (cb && cb.checked) ? 'block' : 'none';
+}
+
+function toggleSecondContact() {
+  const block = document.getElementById('second-contact-block');
+  const btn = document.getElementById('btn-second-contact');
+  const visible = block.style.display !== 'none';
+  block.style.display = visible ? 'none' : 'block';
+  btn.textContent = visible ? '+ Ajouter un second contact' : '− Retirer le second contact';
+}
+
+function updateSalariesContext() {
+  const val = document.querySelector('input[name="etat_societe"]:checked')?.value;
+  const ctx = document.getElementById('salaries-context');
+  if (!ctx) return;
+  ctx.textContent = val === 'projet' ? '(envisagés)' : 'actuels';
+}
+
+function updateSectorStep() {
+  const val = document.querySelector('input[name="secteur"]:checked')?.value;
+  const sect = SECTEURS.find(s => s.value === val);
+  const group = sect?.group;
+
+  // Hide all sector subblocks
+  document.getElementById('sector-ecommerce').style.display = 'none';
+  document.getElementById('sector-ei').style.display = 'none';
+  document.getElementById('sector-sante').style.display = 'none';
+  document.getElementById('no-sector-message').style.display = 'block';
+
+  if (group === 'ecommerce') {
+    document.getElementById('sector-ecommerce').style.display = 'block';
+    document.getElementById('no-sector-message').style.display = 'none';
+    document.getElementById('sector-subtitle').textContent = 'Questions complémentaires pour le secteur E-commerce.';
+  } else if (group === 'ei') {
+    document.getElementById('sector-ei').style.display = 'block';
+    document.getElementById('no-sector-message').style.display = 'none';
+    document.getElementById('sector-subtitle').textContent = 'Questions complémentaires pour Entreprise individuelle / Commerçant / Artisan / Transport.';
+  } else if (group === 'sante') {
+    document.getElementById('sector-sante').style.display = 'block';
+    document.getElementById('no-sector-message').style.display = 'none';
+    document.getElementById('sector-subtitle').textContent = 'Questions complémentaires pour Médecin / Santé.';
+  } else {
+    document.getElementById('sector-subtitle').textContent = 'Aucune question sectorielle pour ce secteur — passez à l\'étape suivante.';
+  }
+}
+
+// ══════════════════════════════════════════════
+//  AUTOSAVE
+// ══════════════════════════════════════════════
+function scheduleAutosave() {
+  clearTimeout(autosaveTimer);
+  document.getElementById('autosave').textContent = '⌛ Saisie en cours…';
+  autosaveTimer = setTimeout(saveDraft, CONFIG.AUTOSAVE_DELAY);
+}
+
+function collectData() {
+  const data = {};
+  document.querySelectorAll('[data-save]').forEach(el => {
+    if (el.type === 'checkbox') {
+      if (!data[el.name]) data[el.name] = [];
+      if (el.checked) data[el.name].push(el.value);
+    } else if (el.type === 'radio') {
+      if (el.checked) data[el.name] = el.value;
+    } else {
+      if (el.id) data[el.id] = el.value;
+    }
+  });
+  data.deal_id = dealId;
+  data.timer_seconds = timerSeconds;
+  data.created_at = createdAt.toISOString();
+  return data;
+}
+
+function saveDraft() {
+  try {
+    localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(collectData()));
+    const now = new Date().toLocaleTimeString('fr-FR');
+    document.getElementById('autosave').textContent = '✓ Sauvegardé ' + now;
+    document.getElementById('last-save').textContent = 'Sauvegarde : ' + now;
+  } catch (e) {
+    document.getElementById('autosave').textContent = '⚠ Erreur sauvegarde';
+  }
+}
+
+function loadDraft() {
+  try {
+    const raw = localStorage.getItem(CONFIG.STORAGE_KEY);
+    if (!raw) return;
+    const data = JSON.parse(raw);
+
+    // Restore createdAt if present
+    if (data.created_at) {
+      createdAt = new Date(data.created_at);
+      document.getElementById('created-at').textContent =
+        createdAt.toLocaleDateString('fr-FR', { day:'2-digit', month:'short', year:'numeric' }) +
+        ' à ' + createdAt.toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit' });
+    }
+    if (data.timer_seconds) {
+      timerSeconds = data.timer_seconds;
+      updateTimerDisplay();
+    }
+
+    for (const [key, val] of Object.entries(data)) {
+      const el = document.getElementById(key);
+      if (el && typeof val === 'string') el.value = val;
+      document.querySelectorAll(`input[name="${key}"]`).forEach(r => {
+        if (r.type === 'radio' && r.value === val) r.checked = true;
+        if (r.type === 'checkbox' && Array.isArray(val) && val.includes(r.value)) r.checked = true;
+      });
+    }
+    // Re-apply branching
+    toggleBranch(); toggleSCI(); toggleSCIPrev();
+    toggleSalaries(); toggleAssocies(); toggleEC();
+    toggleBilan(); toggleConcur(); toggleMissionAutre();
+    updateSectorStep();
+
+    // Show second contact if data
+    if (data.contact2_prenom || data.contact2_nom) toggleSecondContact();
+
+    document.getElementById('autosave').textContent = '✓ Brouillon restauré';
+  } catch (e) { console.warn('Load draft failed', e); }
+}
+
+// ══════════════════════════════════════════════
+//  RECAP
+// ══════════════════════════════════════════════
+function buildRecap() {
+  const data = collectData();
+  const items = [
+    ['Contact', [data.prenom, data.nom].filter(Boolean).join(' ')],
+    ['Email', data.email + (data.email2 ? ' / ' + data.email2 : '')],
+    ['Téléphone', (data.indicatif || '') + ' ' + (data.telephone || '')],
+    ['Code postal', data.code_postal],
+    ['Société', data.etat_societe === 'creee' ? (data.denomination || 'Déjà créée') : data.etat_societe === 'projet' ? 'En projet' : ''],
+    ['Forme juridique', data.forme_juridique || data.forme_juridique_prev],
+    ['Secteur', data.secteur],
+    ['Missions', Array.isArray(data.missions) ? data.missions.join(', ') : ''],
+    ['CA', data.ca],
+    ['Expert-comptable actuel', data.expert_actuel],
+    ['Concurrents', data.concurrents === 'Oui' ? 'Oui' + (data.concurrents_reflexion ? ' — ' + data.concurrents_reflexion : '') : data.concurrents],
+    ['Durée appel', formatDuration(timerSeconds)]
+  ];
+  if (data.contact2_prenom || data.contact2_nom) {
+    items.push(['2e contact', [data.contact2_prenom, data.contact2_nom, data.contact2_fonction].filter(Boolean).join(' · ')]);
+  }
+  document.getElementById('recap').innerHTML = items.map(([l, v]) => `
+    <div class="recap-item">
+      <div class="recap-label">${l}</div>
+      <div class="recap-value ${!v || v === ' ' ? 'empty' : ''}">${v || '—'}</div>
+    </div>
+  `).join('');
+}
+
+function formatDuration(s) {
+  const m = Math.floor(s / 60);
+  const sec = s % 60;
+  return m + ' min ' + sec + ' s';
+}
+
+// ══════════════════════════════════════════════
+//  SUBMIT
+// ══════════════════════════════════════════════
+async function submitForm() {
+  const data = collectData();
+
+  if (!data.prenom || !data.nom || !data.email || !data.telephone) {
+    showBanner('error', '⚠ Nom, prénom, email et téléphone sont obligatoires.');
+    goStep(0);
+    return;
+  }
+  if (!data.verdict) {
+    showBanner('error', '⚠ Sélectionnez une qualification finale.');
+    return;
+  }
+
+  const btn = document.getElementById('btn-submit');
+  btn.disabled = true;
+  btn.textContent = 'Envoi…';
+  showBanner('info', '⏳ Envoi vers Pipedrive…');
+
+  try {
+    const payload = {
+      type: 'qualification_complete',
+      submitted_at: new Date().toISOString(),
+      duration_seconds: timerSeconds,
+      ...data
+    };
+    const res = await fetch(CONFIG.WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+
+    showBanner('success', '✓ Qualification envoyée. Vous pouvez fermer cette page.');
+    btn.textContent = '✓ Envoyé';
+    timerRunning = false;
+    localStorage.removeItem(CONFIG.STORAGE_KEY);
+  } catch (e) {
+    showBanner('error', '⚠ Erreur : ' + e.message + '. Données sauvegardées en local.');
+    btn.disabled = false;
+    btn.textContent = 'Renvoyer ✓';
+  }
+}
+
+function showBanner(type, msg) {
+  const el = document.getElementById('banner');
+  el.className = 'banner banner-' + type + ' visible';
+  el.textContent = msg;
+  if (type === 'success') setTimeout(() => el.classList.remove('visible'), 8000);
+}
+</script>
+
+</body>
+</html>
